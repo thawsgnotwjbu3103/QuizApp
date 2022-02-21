@@ -31,18 +31,15 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.Title</td>
-                            <td>@item.NotifyContent</td>
-                            @if (item.IsActive)
+                            <td>@item.Choice</td>
+                            @if (item.IsRight)
                             {
-                                <td>Hiện</td>
+                                <td>Đúng</td>
                             }
                             else
                             {
-                                <td>Ẩn</td>
+                                <td>Sai</td>
                             }
-                            <td>@item.DateCreated</td>
-                            <td>@item.DateUpdated</td>
                             <td>
                                 <a asp-area="Admin" asp-controller="Notifications" asp-action="Edit" asp-route-id="@item.NotifyId" class="btn btn-warning">Ẩn thông báo</a>
                                 <a asp-area="Admin" asp-controller="Notifications" asp-action="Details" asp-route-id="@item.NotifyId" class="btn btn-info" target="_blank">Xem nội dung</a>
