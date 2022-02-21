@@ -1,0 +1,58 @@
+﻿@model IEnumerable<QuizApp.Models.Question>
+
+@{
+    ViewData["Title"] = "Danh sách câu hỏi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
+        <a asp-area="Admin" asp-controller="Questions" asp-action="Create" asp-route-id="@ViewBag.Id" class="btn btn-primary float-right">Tạo câu hỏi</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Câu hỏi</th>
+                        <th>Dạng câu hỏi</th>
+                        <td>#</td>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Câu hỏi</th>
+                        <th>Dạng câu hỏi</th>
+                        <td>#</td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.QuestionTitle</td>
+                            @if (item.IsMultipleChoices)
+                            {
+                                <td>Nhiều lựa chọn</td>
+                            }
+                            else
+                            {
+                                <td>Duy nhất</td>
+                            }
+                            <td>
+                                <a asp-area="Admin" asp-controller="QuestionChoices" asp-action="Index" asp-route-id="@item.QuestionId" class="btn btn-info">Xem câu trả lời</a>
+                                <a asp-area="Admin" asp-controller="Questions" asp-action="Edit" asp-route-id="@item.QuestionId" class="btn btn-warning">Chỉnh sửa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

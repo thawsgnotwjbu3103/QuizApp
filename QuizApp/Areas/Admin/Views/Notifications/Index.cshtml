@@ -1,0 +1,62 @@
+﻿@model IEnumerable<QuizApp.Models.Notification>
+
+@{
+    ViewData["Title"] = "Danh sách thông báo";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
+        <a asp-area="Admin" asp-controller="Notifications" asp-action="Create" class="btn btn-primary float-right">Tạo thông báo</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Tựa đề thông báo</th>
+                        <th>Nội dung</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th>Cập nhập lúc</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Tựa đề thông báo</th>
+                        <th>Nội dung</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th>Cập nhập lúc</th>
+                        <th>#</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>@item.NotifyContent</td>
+                            @if (item.IsActive)
+                            {
+                                <td>Hiện</td>
+                            }
+                            else
+                            {
+                                <td>Ẩn</td>
+                            }
+                            <td>@item.DateCreated</td>
+                            <td>@item.DateUpdated</td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="Notifications" asp-action="Edit" asp-route-id="@item.NotifyId" class="btn btn-warning">Ẩn thông báo</a>
+                                <a asp-area="Admin" asp-controller="Notifications" asp-action="Details" asp-route-id="@item.NotifyId" class="btn btn-info" target="_blank">Xem nội dung</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

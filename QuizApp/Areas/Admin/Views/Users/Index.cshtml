@@ -1,0 +1,57 @@
+﻿@model IEnumerable<QuizApp.Models.User>
+
+@{
+    ViewData["Title"] = "Quản lý thông tin cá nhân";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Quản lý thông tin cá nhân</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>CMND/CCCD</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>CMND/CCCD</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                  @foreach(var item in Model)
+                   {
+                        <tr>
+                            <td>@item.FullName</td>
+                            <td>@item.Gender</td>
+                            <td>@item.Birthday</td>
+                            <td>@item.IdNum</td>
+                            <td>@item.Address</td>
+                            <td>@item.PhoneNum</td>
+                            <td>@item.Email</td>
+                            <td>@item.DateCreated</td>
+                        </tr>
+                   } 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
