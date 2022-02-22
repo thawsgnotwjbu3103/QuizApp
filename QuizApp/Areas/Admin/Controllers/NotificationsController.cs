@@ -17,7 +17,7 @@ namespace QuizApp.Areas.Admin.Controllers
     {
         private readonly testContext _context;
         private IWebHostEnvironment _webHostEnvironment;
-        public INotyfService _notifyService { get; }
+        public  INotyfService _notifyService { get; }
         public NotificationsController(testContext context,
             IWebHostEnvironment webHostEnvironment, INotyfService notifyService)
         {
@@ -110,7 +110,7 @@ namespace QuizApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NotifyId,Title,NotifyContent,DateCreated,DateUpdated,IsActive")] Models.Notification notification)
+        public async Task<IActionResult> Edit(int id, [Bind("NotifyId,Title,NotifyContent,DateCreated,DateUpdated,IsActive,Content")] Models.Notification notification)
         {
             var oldInfo = _context.Notifications.AsNoTracking().FirstOrDefault(x => x.NotifyId == id);
             if (id != notification.NotifyId)
@@ -120,12 +120,12 @@ namespace QuizApp.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                notification.NotifyContent = oldInfo.NotifyContent;
+                notification.Title = oldInfo.Title;
+                notification.DateCreated = oldInfo.DateCreated;
+                notification.DateUpdated = DateTime.Now.ToString("dd-MM-yyyy");
                 try
                 {
-                    notification.NotifyContent = oldInfo.NotifyContent;
-                    notification.Title = oldInfo.Title;
-                    notification.DateCreated = oldInfo.DateCreated;
-                    notification.DateUpdated = DateTime.Now.ToString("dd-MM-yyyy");
                     _context.Update(notification);
                     await _context.SaveChangesAsync();
                     _notifyService.Success("Ẩn thành công");

@@ -1,41 +1,37 @@
 ﻿@model QuizApp.Models.QuestionChoice
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Tạo câu trả lời";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>QuestionChoice</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
+    </div>
+    <div class="card-body">
+        <form asp-area="Admin" asp-controller="QuestionChoices" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="QuestionId" class="control-label"></label>
-                <select asp-for="QuestionId" class ="form-control" asp-items="ViewBag.QuestionId"></select>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsRight" /> @Html.DisplayNameFor(model => model.IsRight)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Choice" class="control-label"></label>
-                <input asp-for="Choice" class="form-control" />
-                <span asp-validation-for="Choice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="row">
+                <div class="form-group col-6">
+                    <label asp-for="Choice" class="control-label">Trả lời</label>
+                    <textarea asp-for="Choice" rows="6" class="form-control"></textarea>
+                    <span asp-validation-for="Choice" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check col-6">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsRight" />Đúng
+                    </label>
+                </div>
+                <div class="form-group col-12">
+                    <div class="float-right">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                        <a asp-area="Admin" asp-controller="QuestionChoices" asp-action="Index" asp-route-id="@ViewBag.qId" class="btn btn-outline-primary">Hủy</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
