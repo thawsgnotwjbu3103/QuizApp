@@ -22,6 +22,7 @@
                         <th>Số điện thoại</th>
                         <th>Email</th>
                         <th>Ngày tạo</th>
+                        <th>#</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -34,6 +35,7 @@
                         <th>Số điện thoại</th>
                         <th>Email</th>
                         <th>Ngày tạo</th>
+                        <th>#</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -48,6 +50,9 @@
                             <td>@item.PhoneNum</td>
                             <td>@item.Email</td>
                             <td>@item.DateCreated</td>
+                            <td>
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="Points" asp-action="Index" asp-route-id="@item.UserId">Xem điểm</a>
+                            </td>
                         </tr>
                    } 
                 </tbody>

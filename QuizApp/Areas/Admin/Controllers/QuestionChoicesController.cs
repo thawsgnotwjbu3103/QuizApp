@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,55 +14,70 @@ namespace QuizApp.Areas.Admin.Controllers
     public class QuestionChoicesController : Controller
     {
         private readonly testContext _context;
-
-        public QuestionChoicesController(testContext context)
+        public INotyfService _notifyService { get; }
+        public QuestionChoicesController(testContext context, INotyfService notifyService)
         {
             _context = context;
+            _notifyService = notifyService;
         }
 
         // GET: Admin/QuestionChoices
         public async Task<IActionResult> Index(int id)
         {
-            var testContext = _context.QuestionChoices.Include(q => q.Question).Where(x=>x.QuestionId == id);
+            var testContext = _context.QuestionChoices
+                .Include(q => q.Question)
+                .Where(x=>x.QuestionId == id);
+
+
+            ViewBag.qId = _context.QuestionChoices
+                .Join(_context.Questions,
+                      qc => qc.QuestionId,
+                      q => q.QuestionId,
+                      (qc, q) => new
+                      {
+                          q.QuizId,
+                          q.QuestionId
+                      })
+                .Where(x=>x.QuestionId == id)
+                .Select(x=>x.QuizId).FirstOrDefault();
+
+            ViewBag.Id = id;
             return View(await testContext.ToListAsync());
         }
 
-        // GET: Admin/QuestionChoices/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var questionChoice = await _context.QuestionChoices
-                .Include(q => q.Question)
-                .FirstOrDefaultAsync(m => m.ChoiceId == id);
-            if (questionChoice == null)
-            {
-                return NotFound();
-            }
-
-            return View(questionChoice);
-        }
-
         // GET: Admin/QuestionChoices/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
             ViewData["QuestionId"] = new SelectList(_context.Questions, "QuestionId", "QuestionTitle");
+            ViewBag.Id = id;
             return View();
         }
 
         // POST: Admin/QuestionChoices/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ChoiceId,QuestionId,IsRight,Choice")] QuestionChoice questionChoice)
+        public async Task<IActionResult> Create(int id, [Bind("ChoiceId,QuestionId,IsRight,Choice")] QuestionChoice questionChoice)
         {
+            var check = (from qc in _context.QuestionChoices
+                         join q in _context.Questions on qc.QuestionId equals q.QuestionId
+                         where q.QuestionId == id && 
+                         q.IsMultipleChoices == false && 
+                         qc.IsRight == true
+                         select new
+                         {
+                             temp = qc.IsRight
+                         }).Count();
             if (ModelState.IsValid)
             {
+                if(questionChoice.IsRight == true && check == 1)
+                {
+                    _notifyService.Warning("Không thể có hai câu trả lời đúng trong câu hỏi có dạng duy nhất");
+                    return View(questionChoice);
+                };
+                questionChoice.QuestionId = id;
                 _context.Add(questionChoice);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = id});
             }
             ViewData["QuestionId"] = new SelectList(_context.Questions, "QuestionId", "QuestionTitle", questionChoice.QuestionId);
             return View(questionChoice);
@@ -70,6 +86,7 @@ namespace QuizApp.Areas.Admin.Controllers
         // GET: Admin/QuestionChoices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.qId = _context.QuestionChoices.Where(x => x.ChoiceId == id).Select(m => m.QuestionId).FirstOrDefault();
             if (id == null)
             {
                 return NotFound();
@@ -89,6 +106,17 @@ namespace QuizApp.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ChoiceId,QuestionId,IsRight,Choice")] QuestionChoice questionChoice)
         {
+            var oldId = _context.QuestionChoices.Where(x => x.ChoiceId == id).Select(m => m.QuestionId).FirstOrDefault();
+            var check = (from qc in _context.QuestionChoices
+                         join q in _context.Questions on qc.QuestionId equals q.QuestionId
+                         where q.QuestionId == oldId &&
+                         q.IsMultipleChoices == false &&
+                         qc.IsRight == true
+                         select new
+                         {
+                             temp = qc.IsRight
+                         }).Count();
+            ViewBag.qId = oldId;
             if (id != questionChoice.ChoiceId)
             {
                 return NotFound();
@@ -98,6 +126,12 @@ namespace QuizApp.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (questionChoice.IsRight == true && check == 1)
+                    {
+                        _notifyService.Warning("Không thể có hai câu trả lời đúng trong câu hỏi có dạng duy nhất");
+                        return View(questionChoice);
+                    };
+                    questionChoice.QuestionId = oldId;
                     _context.Update(questionChoice);
                     await _context.SaveChangesAsync();
                 }
@@ -112,42 +146,13 @@ namespace QuizApp.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = ViewBag.qId });
             }
             ViewData["QuestionId"] = new SelectList(_context.Questions, "QuestionId", "QuestionTitle", questionChoice.QuestionId);
             return View(questionChoice);
         }
 
         // GET: Admin/QuestionChoices/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var questionChoice = await _context.QuestionChoices
-                .Include(q => q.Question)
-                .FirstOrDefaultAsync(m => m.ChoiceId == id);
-            if (questionChoice == null)
-            {
-                return NotFound();
-            }
-
-            return View(questionChoice);
-        }
-
-        // POST: Admin/QuestionChoices/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var questionChoice = await _context.QuestionChoices.FindAsync(id);
-            _context.QuestionChoices.Remove(questionChoice);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool QuestionChoiceExists(int id)
         {
             return _context.QuestionChoices.Any(e => e.ChoiceId == id);

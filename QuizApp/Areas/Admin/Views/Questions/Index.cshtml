@@ -8,7 +8,10 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
-        <a asp-area="Admin" asp-controller="Questions" asp-action="Create" asp-route-id="@ViewBag.Id" class="btn btn-primary float-right">Tạo câu hỏi</a>
+        <div class="my-2">
+            <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Index" asp-route-id="@ViewBag.Id" class="btn btn-primary float-left">Quay lại danh sách bài thi</a>
+            <a asp-area="Admin" asp-controller="Questions" asp-action="Create" asp-route-id="@ViewBag.Id" class="btn btn-primary float-right">Tạo câu hỏi</a>
+        </div>     
     </div>
     <div class="card-body">
         <div class="table-responsive">

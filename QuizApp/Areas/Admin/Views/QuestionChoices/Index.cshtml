@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<QuizApp.Models.QuestionChoice>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách câu trả lời";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
-        <a asp-area="Admin" asp-controller="Notifications" asp-action="Create" class="btn btn-primary float-right">Tạo thông báo</a>
+        <div class="my-2">
+            <a asp-area="Admin" asp-controller="Questions" asp-action="Index" asp-route-id="@ViewBag.qId" class="btn btn-primary float-left">Quay lại danh sách câu hỏi</a>
+            <a asp-area="Admin" asp-controller="QuestionChoices" asp-action="Create" asp-route-id="@ViewBag.Id" class="btn btn-primary float-right">Tạo câu trả lời</a>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -41,8 +44,7 @@
                                 <td>Sai</td>
                             }
                             <td>
-                                <a asp-area="Admin" asp-controller="Notifications" asp-action="Edit" asp-route-id="@item.NotifyId" class="btn btn-warning">Ẩn thông báo</a>
-                                <a asp-area="Admin" asp-controller="Notifications" asp-action="Details" asp-route-id="@item.NotifyId" class="btn btn-info" target="_blank">Xem nội dung</a>
+                                <a asp-area="Admin" asp-controller="QuestionChoices" asp-action="Edit" asp-route-id="@item.ChoiceId" class="btn btn-warning">Chỉnh sửa</a>
                             </td>
                         </tr>
                     }

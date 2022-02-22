@@ -1,8 +1,78 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model QuizApp.Models.User
+@{
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row w-100 m-0 align-items-center" style="height:80vh !important">
+    <div class="d-md-block d-none col-md-6">
+        <div class="display-1 font-weight-bolder text-center text-primary">TITLE <br /> HERE</div>
+    </div>
+    <div class="col-md-6">
+        <div class="display-3">
+            <p class="display-4 font-weight-bolder text-center text-primary">Lorem ipsum dolor sit amet</p>
+            <p class="display-4 font-weight-bolder text-center text-danger">Lorem ipsum dolor</p>
+            <p class="display-4 font-weight-bolder text-center text-warning">Lorem ipsum </p>
+            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#UserPostModal">
+                ĐĂNG KÝ THI NGAY
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UserPostModal" tabindex="-1" role="dialog" aria-labelledby="ModalLable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-area="" asp-controller="Home" asp-action="PostUsers">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title mx-auto" id="ModalLable">
+                        <p class="text-center">Cập nhập thông tin cá nhân</p>
+                        <p class="text-center">Hãy điền đầy đủ thông tin cá nhân. Các trường có dấu * là bắt buộc. Ban tổ chức sẽ không công nhận kết quả đối với trường hợp cung cấp không đầy đủ và chính xác thông tin cá nhân.</p>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label">Họ và tên *</label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label">Giới tính *</label>
+                        <select asp-for="Gender" asp-items="@ViewBag.Gender" class="form-control">
+                            <option selected disabled>Chọn giới tính</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Birthday" class="control-label">Ngày sinh *</label>
+                        <input asp-for="Birthday" type="date" class="form-control" />
+                        <span asp-validation-for="Birthday" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdNum" class="control-label">CMND/CCCD *</label>
+                        <input asp-for="IdNum" class="form-control" />
+                        <span asp-validation-for="IdNum" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label">Địa chỉ *</label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNum" class="control-label">Số điện thoại *</label>
+                        <input asp-for="PhoneNum" class="form-control" />
+                        <span asp-validation-for="PhoneNum" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Vào thi</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

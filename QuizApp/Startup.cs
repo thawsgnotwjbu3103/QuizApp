@@ -28,7 +28,7 @@ namespace QuizApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddNotyf(config => { config.DurationInSeconds = 1; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            services.AddNotyf(config => { config.DurationInSeconds = 8; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
             services.AddDbContext<testContext>(options => 
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultCon"));
