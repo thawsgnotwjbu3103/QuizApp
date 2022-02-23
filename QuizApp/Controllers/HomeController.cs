@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuizApp.Helpers;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace QuizApp.Controllers
 {
@@ -29,7 +30,15 @@ namespace QuizApp.Controllers
         public IActionResult Index()
         {
             ViewBag.Gender = Utilities.GenderList();
-            return View();
+            if (Request.Cookies["_id"] == null)
+            {
+                return View();
+            }
+            var check = _context.Users
+                .Where(x => x.UserId == int.Parse(Request.Cookies["_id"]))
+                .FirstOrDefault();
+            if (check == null) return View();
+            return RedirectToAction("Index", "Dashboard", new { area = ""});
         }
 
         [HttpPost]
@@ -48,7 +57,13 @@ namespace QuizApp.Controllers
                 user.DateCreated = DateTime.Now.ToString("dd-MM-yyyy");
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                CookieOptions options = new CookieOptions();
+                options.Expires = DateTime.Now.AddDays(182.5);
+                Response.Cookies.Append("_id", user.UserId.ToString(), options);
+                Response.Cookies.Append("_phoneNum", user.PhoneNum, options);
+                Response.Cookies.Append("_idNum", user.IdNum, options);
+                Response.Cookies.Append("_gender", user.Gender, options);
+                return RedirectToAction("Index", "Dashboard", new { area = "", id = user.UserId });
             }
             return View(user);
         }

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Bài thi";
+}
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <div class="container">
+            <form asp-area="" asp-controller="Quiz" asp-action="PostQuiz">
+                @for (var i = 1; i <= ViewBag.Count; i++)
+                {
+                    <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
+                        @foreach (var item in (IEnumerable<Question>)ViewBag.Questions)
+                        {
+                            if (item.QuestionId == i)
+                            {
+                                <p>Câu @i : @item.QuestionTitle</p>
+                            }
+                        }
+                        @foreach (var item in (IEnumerable<QuestionChoice>)ViewBag.QuestionChoices)
+                        {
+                            if (item.QuestionId == i)
+                            {
+                                <div class="form-check mx-5">
+                                    <input class="form-check-input chb_@i" id="@item.ChoiceId" name="answerList" type="checkbox" value="@item.ChoiceId" />
+                                    <label class="form-check-label" for="@item.ChoiceId">@item.Choice</label><br />
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+                <input type="submit" class="btn btn-primary float-right" value="Nộp bài"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @for (int i = 1; i <= ViewBag.Count; i++)
+    {
+<script>
+            $(".chb_@i").change(function () {
+                $(".chb_@i").prop('checked', false);
+                $(this).prop('checked', true);
+            });
+</script>
+    }
+}
+
+
