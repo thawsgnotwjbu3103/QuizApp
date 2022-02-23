@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="~/assets/user/assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/assets/user/css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom bg-primary">
+                <div class="d-flex flex-column justify-content-center align-items-center text-white">
+                    @if (ViewBag.Gender == "Nam")
+                    {
+                        <img src="~/assets/user/imgs/undraw_profile_2.svg" width="75" height="75" />
+                    }
+                    else
+                    {
+                        <img src="~/assets/user/imgs/undraw_profile_3.svg" width="75" height="75" />
+                    }
+                    <p class="text-center">
+                        @ViewBag.PhoneNum <br />
+                        @ViewBag.IdNum
+                    </p>
+                </div>
+            </div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item text-center list-group-item-action list-group-item-light p-3" href="#!">Đăng xuất</a>
+            </div>
+        </div>
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary border-bottom">
+                <div class="container-fluid my-2">
+                    <div class="text-white font-weight-bolder">LOGO HERE</div>
+                </div>
+            </nav>
+            <!-- Page content-->
+            <div class="container-fluid">
+                <div>
+                    <div class="mx-auto my-5" style="width: 85%">
+                        <table class="table border">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="border-0">Danh sách thông báo</th>
+                                    <th class="border-0"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in (IEnumerable<Notification>)ViewBag.Notifications)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.Title <br />
+                                            <small style="font-size: 13px;">
+                                                <em>
+                                                    Cập nhập ngày : @item.DateUpdated
+                                                </em>
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary w-100" asp-area="" asp-controller="Dashboard" asp-action="NotifyDetails" asp-route-id="@item.NotifyId" target="_blank">Xem</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mx-auto my-5" style="width: 85%">
+                        <table class="table border">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th colspan="4" class="border-bottom">Danh sách bài thi</th>
+                                </tr>
+                                <tr>
+                                    <th class="border-0">Tên bài thi</th>
+                                    <th class="border-0">Thời gian làm bài</th>
+                                    <th class="border-0"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in (IEnumerable<TblQuiz>)ViewBag.Quizs)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.QuizName <br />
+                                            <small style="font-size: 13px;">
+                                                <em>
+                                                    Cập nhập ngày : @item.DateCreated
+                                                </em>
+                                            </small>
+                                        </td>
+                                        <td class="text-left">@item.Time</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-outline-primary w-100" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Core theme JS-->
+    <script src="~/assets/user/js/scripts.js"></script>
+</body>
+
+</html>

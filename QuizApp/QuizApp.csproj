@@ -41,6 +41,7 @@
     <None Include="Areas\Admin\Views\TblQuizs\Create.cshtml" />
     <None Include="Areas\Admin\Views\TblQuizs\Edit.cshtml" />
     <None Include="Areas\Admin\Views\TblQuizs\Index.cshtml" />
+    <None Include="wwwroot\assets\user\js\scripts.js" />
   </ItemGroup>
 
 </Project>
