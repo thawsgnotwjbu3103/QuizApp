@@ -1,0 +1,35 @@
+﻿@model QuizApp.Models.QuestionsText
+
+@{
+    ViewData["Title"] = "Chỉnh sửa câu hỏi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
+    </div>
+    <div class="card-body">
+        <form asp-area="Admin" asp-controller="QuestionsTexts" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="QuestionTextId" />
+            <div class="row">
+                <div class="form-group col-6">
+                    <label asp-for="QuestionTextTitle" class="control-label">Tên câu hỏi</label>
+                    <textarea asp-for="QuestionTextTitle" rows="6" class="form-control"></textarea>
+                    <span asp-validation-for="QuestionTextTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group col-12">
+                    <div class="float-right">
+                        <input type="submit" value="Lưu câu hỏi" class="btn btn-primary" />
+                        <a asp-area="Admin" asp-controller="QuestionsTexts" asp-action="Index" asp-route-id="@ViewBag.qId" class="btn btn-outline-primary">Hủy</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

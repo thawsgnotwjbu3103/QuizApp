@@ -51,5 +51,16 @@ namespace QuizApp.Controllers
             var content = _context.Notifications.Where(x => x.NotifyId == id).FirstOrDefault();
             return View(content);
         } 
+
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            foreach (var cookie in HttpContext.Request.Cookies)
+            {
+                Response.Cookies.Delete(cookie.Key);
+            }
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
     }
 }

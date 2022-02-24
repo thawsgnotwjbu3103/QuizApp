@@ -3,10 +3,15 @@
 }
 
 <div class="row">
-    <div class="col-2"></div>
+    <div class="col-2">
+        <div style="background-color: #f0f5f5; width: 200px; height: 170px; font-size: 30px;" 
+             class="mt-5 position-fixed d-flex justify-content-center align-items-center">
+            <div style="font-size: 30px;" class="text-center"  id="timer"></div>
+        </div>
+    </div>
     <div class="col-10">
         <div class="container">
-            <form asp-area="" asp-controller="Quiz" asp-action="PostQuiz">
+            <form asp-area="" asp-controller="Quiz" asp-action="PostQuiz" id="startForm">
                 @for (var i = 1; i <= ViewBag.Count; i++)
                 {
                     <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
@@ -29,7 +34,19 @@
                         }
                     </div>
                 }
-                <input type="submit" class="btn btn-primary float-right" value="Nộp bài"/>
+                @foreach (var item in (IEnumerable<QuestionsText>)ViewBag.QuestionText)
+                {
+                    <input type="hidden" value="@item.QuestionTextId" name="qtId"/> 
+                    <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
+                        <p>Câu tự luận : @item.QuestionTextTitle</p>
+                        <textarea style="resize: none;" class="form-control" name="textanswerList" rows="6"></textarea>
+                    </div>
+                }
+                <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
+                    <p>Dự đoán số người trả lời đúng</p>
+                    <input type="number" name="matches" />
+                </div>
+                <input type="submit" onclick="return confirm('Bạn có muốn nộp bài ?')" class="btn btn-primary float-right" value="Nộp bài" />
             </form>
         </div>
     </div>
@@ -38,13 +55,41 @@
 @section Scripts{
     @for (int i = 1; i <= ViewBag.Count; i++)
     {
-<script>
+        <script>
             $(".chb_@i").change(function () {
                 $(".chb_@i").prop('checked', false);
                 $(this).prop('checked', true);
             });
-</script>
+        </script>
     }
+
+<script>
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10)
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.text(minutes + ":" + seconds);
+
+                if (--timer < 0) {
+                    jQuery(function ($) {
+                        $('form#startForm').submit();
+                    });
+                }
+            }, 1000);
+        }
+
+    jQuery(function ($) {
+        var int = @ViewBag.Time;
+            var Minutes = int * 60,
+                display = $('#timer');
+            startTimer(Minutes, display);
+        });
+</script>
 }
 
 

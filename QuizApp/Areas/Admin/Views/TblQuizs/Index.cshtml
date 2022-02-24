@@ -46,10 +46,11 @@
                         {
                             <td>Ẩn</td>
                         }
-                        <td>
-                            <a asp-area="Admin" asp-controller="Questions" asp-action="Index" asp-route-id="@item.QuizId" class="btn btn-info">Xem câu hỏi</a>
-                            <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Edit" asp-route-id="@item.QuizId" class="btn btn-warning">Chỉnh sửa</a>
-                        </td>
+                    <td>
+                        <a asp-area="Admin" asp-controller="Questions" asp-action="Index" asp-route-id="@item.QuizId" class="btn btn-info">Xem câu hỏi trắc nghiệm</a>
+                        <a asp-area="Admin" asp-controller="QuestionsTexts" asp-action="Index" asp-route-id="@item.QuizId" class="btn btn-info mx-lg-2 my-md-2 my-sm-2">Xem câu hỏi tự luận</a>
+                        <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Edit" asp-route-id="@item.QuizId" class="btn btn-warning">Chỉnh sửa</a>
+                    </td>
                     </tr>
                     }
                 </tbody>

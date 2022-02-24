@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QuizApp.Models.QuestionsText>
+
+@{
+    ViewData["Title"] = "Danh sách câu hỏi tự luận";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
+        <div class="my-2">
+            <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Index" asp-route-id="@ViewBag.qId" class="btn btn-primary float-left">Quay lại danh sách bài thi</a>
+            <a asp-area="Admin" asp-controller="QuestionsTexts" asp-action="Create" asp-route-id="@ViewBag.qId" class="btn btn-primary float-right">Tạo câu hỏi tự luận</a>
+        </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Câu hỏi</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Câu hỏi</th>
+                            <th>#</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.QuestionTextTitle</td>
+                                <td>
+                                    <a class="btn btn-warning" asp-area="Admin" asp-controller="QuestionsTexts" asp-action="Edit" asp-route-id="@item.QuestionTextId">Chỉnh sửa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
