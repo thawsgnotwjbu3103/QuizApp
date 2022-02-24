@@ -10,7 +10,6 @@ namespace QuizApp.Models
         public int PointId { get; set; }
         public int UserId { get; set; }
         public int TotalPoint { get; set; }
-        public int Matches { get; set; }
 
         public virtual User PointNavigation { get; set; }
     }

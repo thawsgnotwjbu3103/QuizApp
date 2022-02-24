@@ -17,7 +17,7 @@ namespace QuizApp.Areas.Admin.Controllers
     {
         private readonly testContext _context;
         private IWebHostEnvironment _webHostEnvironment;
-        public  INotyfService _notifyService { get; }
+        public INotyfService _notifyService { get; }
         public NotificationsController(testContext context,
             IWebHostEnvironment webHostEnvironment, INotyfService notifyService)
         {

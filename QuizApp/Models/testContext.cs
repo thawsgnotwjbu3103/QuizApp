@@ -21,9 +21,11 @@ namespace QuizApp.Models
         public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionChoice> QuestionChoices { get; set; }
+        public virtual DbSet<QuestionsText> QuestionsTexts { get; set; }
         public virtual DbSet<TblQuiz> TblQuizzes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAnswer> UserAnswers { get; set; }
+        public virtual DbSet<UserAnswerText> UserAnswerTexts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -88,6 +90,22 @@ namespace QuizApp.Models
                     .HasForeignKey(d => d.QuestionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Question_choices_Questions");
+            });
+
+            modelBuilder.Entity<QuestionsText>(entity =>
+            {
+                entity.HasKey(e => e.QuestionTextId);
+
+                entity.ToTable("QuestionsText");
+
+                entity.Property(e => e.QuestionTextTitle)
+                    .HasMaxLength(10)
+                    .IsFixedLength(true);
+
+                entity.HasOne(d => d.Quiz)
+                    .WithMany(p => p.QuestionsTexts)
+                    .HasForeignKey(d => d.QuizId)
+                    .HasConstraintName("FK_QuestionsText_TblQuiz");
             });
 
             modelBuilder.Entity<TblQuiz>(entity =>
@@ -156,26 +174,43 @@ namespace QuizApp.Models
                 entity.HasOne(d => d.Choice)
                     .WithMany(p => p.UserAnswers)
                     .HasForeignKey(d => d.ChoiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_Answers_Question_choices");
 
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.UserAnswers)
                     .HasForeignKey(d => d.QuestionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_Answers_Questions");
 
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.UserAnswers)
                     .HasForeignKey(d => d.QuizId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_Answers_Quiz");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserAnswers)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_Answers_Users");
+            });
+
+            modelBuilder.Entity<UserAnswerText>(entity =>
+            {
+                entity.HasKey(e => e.UaTextId);
+
+                entity.Property(e => e.UaTextId).HasColumnName("uaTextId");
+
+                entity.Property(e => e.Matches)
+                    .HasMaxLength(10)
+                    .IsFixedLength(true);
+
+                entity.HasOne(d => d.QuestionText)
+                    .WithMany(p => p.UserAnswerTexts)
+                    .HasForeignKey(d => d.QuestionTextId)
+                    .HasConstraintName("FK_UserAnswerTexts_QuestionsText");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserAnswerTexts)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_UserAnswerTexts_Users");
             });
 
             OnModelCreatingPartial(modelBuilder);

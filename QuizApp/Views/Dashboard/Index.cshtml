@@ -39,7 +39,12 @@
                 </div>
             </div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item text-center list-group-item-action list-group-item-light p-3" href="#!">Đăng xuất</a>
+                <form asp-area="" asp-controller="Dashboard" asp-action="Logout">      
+                    <input type="submit" 
+                    class="list-group-item text-center list-group-item-action list-group-item-light p-3" 
+                    value="Đăng xuất"
+                    onclick="return confirm('Bạn có muốn thoát ?')"/>
+                </form>
             </div>
         </div>
         <!-- Page content wrapper-->

@@ -10,6 +10,7 @@ namespace QuizApp.Models
     {
         public User()
         {
+            UserAnswerTexts = new HashSet<UserAnswerText>();
             UserAnswers = new HashSet<UserAnswer>();
         }
 
@@ -30,6 +31,7 @@ namespace QuizApp.Models
         public string DateCreated { get; set; }
 
         public virtual Point Point { get; set; }
+        public virtual ICollection<UserAnswerText> UserAnswerTexts { get; set; }
         public virtual ICollection<UserAnswer> UserAnswers { get; set; }
     }
 }
