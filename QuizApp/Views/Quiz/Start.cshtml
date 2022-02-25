@@ -4,31 +4,25 @@
 
 <div class="row">
     <div class="col-2">
-        <div style="background-color: #f0f5f5; width: 200px; height: 170px; font-size: 30px;" 
+        <div style="background-color: #f0f5f5; width: 200px; height: 170px; font-size: 30px;"
              class="mt-5 position-fixed d-flex justify-content-center align-items-center">
-            <div style="font-size: 30px;" class="text-center"  id="timer"></div>
+            <div style="font-size: 30px;" class="text-center" id="timer"></div>
         </div>
     </div>
     <div class="col-10">
         <div class="container">
             <form asp-area="" asp-controller="Quiz" asp-action="PostQuiz" id="startForm">
-                @for (var i = 1; i <= ViewBag.Count; i++)
+                @foreach (var item in (IEnumerable<Question>)ViewBag.Questions)
                 {
                     <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
-                        @foreach (var item in (IEnumerable<Question>)ViewBag.Questions)
+                        <p>@item.QuestionTitle</p>
+                        @foreach (var answer in (IEnumerable<QuestionChoice>)ViewBag.QuestionChoices)
                         {
-                            if (item.QuestionId == i)
+                            if (item.QuizId == answer.QuizId && item.QuestionId == answer.QuestionId)
                             {
-                                <p>Câu @i : @item.QuestionTitle</p>
-                            }
-                        }
-                        @foreach (var item in (IEnumerable<QuestionChoice>)ViewBag.QuestionChoices)
-                        {
-                            if (item.QuestionId == i)
-                            {
-                                <div class="form-check mx-5">
-                                    <input class="form-check-input chb_@i" id="@item.ChoiceId" name="answerList" type="checkbox" value="@item.ChoiceId" />
-                                    <label class="form-check-label" for="@item.ChoiceId">@item.Choice</label><br />
+                                <div class="form-check">
+                                    <input class="form-check-input chb_@item.QuestionId" id="@answer.ChoiceId" name="answerList" type="checkbox" value="@answer.ChoiceId" />
+                                    <label for="@answer.ChoiceId">@answer.Choice</label>
                                 </div>
                             }
                         }
@@ -36,7 +30,7 @@
                 }
                 @foreach (var item in (IEnumerable<QuestionsText>)ViewBag.QuestionText)
                 {
-                    <input type="hidden" value="@item.QuestionTextId" name="qtId"/> 
+                    <input type="hidden" value="@item.QuestionTextId" name="qtId" />
                     <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
                         <p>Câu tự luận : @item.QuestionTextTitle</p>
                         <textarea style="resize: none;" class="form-control" name="textanswerList" rows="6"></textarea>
@@ -53,43 +47,43 @@
 </div>
 
 @section Scripts{
-    @for (int i = 1; i <= ViewBag.Count; i++)
+    @foreach (var item in (IEnumerable<Question>)ViewBag.Questions)
     {
-        <script>
-            $(".chb_@i").change(function () {
-                $(".chb_@i").prop('checked', false);
-                $(this).prop('checked', true);
-            });
-        </script>
+<script>
+           $(".chb_@item.QuestionId").change(function () {
+                $(".chb_@item.QuestionId").prop('checked', false);
+                    $(this).prop('checked', true);
+                });
+</script>
     }
 
-<script>
-        function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10)
-                seconds = parseInt(timer % 60, 10);
+    <script>
+            function startTimer(duration, display) {
+                var timer = duration, minutes, seconds;
+                setInterval(function () {
+                    minutes = parseInt(timer / 60, 10)
+                    seconds = parseInt(timer % 60, 10);
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-                display.text(minutes + ":" + seconds);
+                    display.text(minutes + ":" + seconds);
 
-                if (--timer < 0) {
-                    jQuery(function ($) {
-                        $('form#startForm').submit();
-                    });
-                }
-            }, 1000);
-        }
+                    if (--timer < 0) {
+                        jQuery(function ($) {
+                            $('form#startForm').submit();
+                        });
+                    }
+                }, 1000);
+            }
 
-    jQuery(function ($) {
-        var int = @ViewBag.Time;
-            var Minutes = int * 60,
-                display = $('#timer');
-            startTimer(Minutes, display);
-        });
-</script>
+        jQuery(function ($) {
+            var int = @ViewBag.Time;
+                var Minutes = int * 60,
+                    display = $('#timer');
+                startTimer(Minutes, display);
+            });
+        </script>
 }
 
 
