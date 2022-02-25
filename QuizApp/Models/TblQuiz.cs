@@ -16,11 +16,8 @@ namespace QuizApp.Models
         }
 
         public int QuizId { get; set; }
-        [Required]
         public string QuizName { get; set; }
-        [Required]
         public string Time { get; set; }
-        [Required]
         public string DateCreated { get; set; }
         public bool IsActive { get; set; }
 

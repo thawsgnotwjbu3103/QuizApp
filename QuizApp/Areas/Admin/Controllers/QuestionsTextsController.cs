@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,11 @@ namespace QuizApp.Areas.Admin.Controllers
     public class QuestionsTextsController : Controller
     {
         private readonly testContext _context;
-
-        public QuestionsTextsController(testContext context)
+        public INotyfService _notifyService { get; }
+        public QuestionsTextsController(testContext context, INotyfService notifyService)
         {
             _context = context;
+            _notifyService = notifyService;
         }
 
         // GET: Admin/QuestionsTexts
@@ -49,6 +51,7 @@ namespace QuizApp.Areas.Admin.Controllers
                 questionsText.QuizId = id;
                 _context.Add(questionsText);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Tạo thành công");
                 return RedirectToAction(nameof(Index),new { id = id});
             }
             ViewData["QuizId"] = new SelectList(_context.TblQuizzes, "QuizId", "DateCreated", questionsText.QuizId);
@@ -94,6 +97,7 @@ namespace QuizApp.Areas.Admin.Controllers
                     questionsText.QuizId = quizId;
                     _context.Update(questionsText);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Sửa thành công");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -110,36 +114,6 @@ namespace QuizApp.Areas.Admin.Controllers
             }
             ViewData["QuizId"] = new SelectList(_context.TblQuizzes, "QuizId", "DateCreated", questionsText.QuizId);
             return View(questionsText);
-        }
-
-        // GET: Admin/QuestionsTexts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var questionsText = await _context.QuestionsTexts
-                .Include(q => q.Quiz)
-                .FirstOrDefaultAsync(m => m.QuestionTextId == id);
-            if (questionsText == null)
-            {
-                return NotFound();
-            }
-
-            return View(questionsText);
-        }
-
-        // POST: Admin/QuestionsTexts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var questionsText = await _context.QuestionsTexts.FindAsync(id);
-            _context.QuestionsTexts.Remove(questionsText);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool QuestionsTextExists(int id)

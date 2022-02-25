@@ -30,6 +30,7 @@ namespace QuizApp.Controllers
 
             var question = _context.Questions.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
             var questionText = _context.QuestionsTexts.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
+
             CookieOptions options = new CookieOptions();
             options.Expires = DateTime.Now.AddDays(182.5);
             Response.Cookies.Append("_quizId", id.ToString(), options);
@@ -38,16 +39,18 @@ namespace QuizApp.Controllers
             int intTime = Int32.Parse(string.Join(string.Empty, Regex.Matches(time, @"\d+").OfType<Match>().Select(m => m.Value)));
             ViewBag.Time = intTime;
 
-            var questionChoices = _context.QuestionChoices
-                .Join(_context.Questions,
-                qc => qc.Question.QuestionId,
-                q => q.QuestionId,
-                (qc, q) => new QuestionChoice
-                {
-                    QuestionId = qc.QuestionId,
-                    ChoiceId = qc.ChoiceId,
-                    Choice = qc.Choice
-                }).ToList();
+            var questionChoices = (from qc in _context.QuestionChoices
+                                   join q in _context.Questions on qc.QuestionId equals q.QuestionId
+                                   join qz in _context.TblQuizzes on q.QuizId equals qz.QuizId
+                                   select new QuestionChoice
+                                   {
+                                       QuizId = qz.QuizId,
+                                       QuestionId = qc.QuestionId,
+                                       ChoiceId = qc.ChoiceId,
+                                       Choice = qc.Choice
+                                   }).Where(x=>x.QuizId == id).ToList();
+
+
             ViewBag.QuestionChoices = questionChoices;
             ViewBag.Questions = question;
             ViewBag.Count = question.Count();
