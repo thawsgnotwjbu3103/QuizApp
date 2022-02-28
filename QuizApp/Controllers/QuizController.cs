@@ -23,10 +23,13 @@ namespace QuizApp.Controllers
             {
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
-            var check = _context.Users
+            var check = _context.UserInfos
                 .Where(x => x.UserId == int.Parse(Request.Cookies["_id"]))
                 .FirstOrDefault();
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });
+
+            var disable = _context.DisableLists.Where(x => x.DisableId == id).FirstOrDefault();
+            if(disable != null) return RedirectToAction("Index", "Dashboard", new { area = "" });
 
             var question = _context.Questions.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
             var questionText = _context.QuestionTexts.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
@@ -34,7 +37,6 @@ namespace QuizApp.Controllers
             CookieOptions options = new CookieOptions();
             options.Expires = new DateTimeOffset(2038, 1, 1, 0, 0, 0, TimeSpan.FromHours(0));
             Response.Cookies.Append("_quizId", id.ToString(), options);
-
             string time = _context.TblQuizzes.Where(x => x.QuizId == id).Select(q => q.Time).FirstOrDefault();
             int intTime = Int32.Parse(string.Join(string.Empty, Regex.Matches(time, @"\d+").OfType<Match>().Select(m => m.Value)));
             ViewBag.Time = intTime;
@@ -49,7 +51,6 @@ namespace QuizApp.Controllers
                                        ChoiceId = qc.ChoiceId,
                                        Choice = qc.Choice
                                    }).Where(x=>x.QuizId == id).ToList();
-
 
             ViewBag.QuestionChoices = questionChoices;
             ViewBag.Questions = question;
@@ -66,13 +67,14 @@ namespace QuizApp.Controllers
         {
             List<UserAnswer> userAnswers = new List<UserAnswer>();
             List<UserAnswerText> userAnswerTexts = new List<UserAnswerText>();
-
+            int userId = int.Parse(Request.Cookies["_id"]);
+            int quizId = int.Parse(Request.Cookies["_quizId"]);
             foreach (var item in answerList)
             {
                 UserAnswer ua = new UserAnswer
                 {
-                    UserId = int.Parse(Request.Cookies["_id"]),
-                    QuizId = int.Parse(Request.Cookies["_quizId"]),
+                    UserId = userId,
+                    QuizId = quizId,
                     QuestionId = _context.QuestionChoices.Where(x => x.ChoiceId == item).Select(q => q.QuestionId).FirstOrDefault(),
                     ChoiceId = item,
                     IsRight = _context.QuestionChoices.Where(x => x.ChoiceId == item).Select(q => q.IsRight).FirstOrDefault()
@@ -84,7 +86,7 @@ namespace QuizApp.Controllers
             {
                 UserAnswerText uat = new UserAnswerText
                 {
-                    UserId = int.Parse(Request.Cookies["_id"]),
+                    UserId = userId,
                     QuestionTextId = qtId,
                     Matches = matches.ToString(),
                     QuestionTextTitle = item
@@ -95,7 +97,31 @@ namespace QuizApp.Controllers
             _context.UserAnswerTexts.AddRange(userAnswerTexts);
             _context.UserAnswers.AddRange(userAnswers);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Dashboard", new { area = "" });
+
+
+            var userAnswerTotal = _context.UserAnswers
+                .Where(x => x.UserId == userId && x.QuizId == quizId && x.ChoiceId != null && x.IsRight == true).Count();
+            var title = _context.TblQuizzes.Where(x => x.QuizId == quizId).Select(q => q.QuizName).FirstOrDefault();
+            var totalQuestions = _context.QuestionChoices.Where(x => x.IsRight == true && x.QuizId == quizId).Count();
+            double totalpoint = ((double)userAnswerTotal / (double)totalQuestions) * 100; 
+
+            Point point = new Point
+            {
+                UserId = userId,
+                QuizId = quizId,
+                TotalPoint = (int)totalpoint
+            };
+
+            DisableList dl = new DisableList
+            {
+                UserId = userId,
+                DisableId = int.Parse(Request.Cookies["_quizId"])
+            };
+
+            _context.Points.Add(point);
+            _context.DisableLists.Add(dl);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Score", new { id = userId, quizId = quizId });
         }
     }
 }

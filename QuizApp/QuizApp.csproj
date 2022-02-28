@@ -7,14 +7,18 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Admin\Views\QuestionsTexts\**" />
+    <Compile Remove="Areas\Admin\Views\UserInfo\**" />
     <Content Remove="Areas\Admin\Views\QuestionsTexts\**" />
+    <Content Remove="Areas\Admin\Views\UserInfo\**" />
     <EmbeddedResource Remove="Areas\Admin\Views\QuestionsTexts\**" />
+    <EmbeddedResource Remove="Areas\Admin\Views\UserInfo\**" />
     <None Remove="Areas\Admin\Views\QuestionsTexts\**" />
+    <None Remove="Areas\Admin\Views\UserInfo\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
@@ -49,7 +53,6 @@
     <None Include="Areas\Admin\Views\TblQuizs\Create.cshtml" />
     <None Include="Areas\Admin\Views\TblQuizs\Edit.cshtml" />
     <None Include="Areas\Admin\Views\TblQuizs\Index.cshtml" />
-    <None Include="Areas\Admin\Views\Users\Index.cshtml" />
     <None Include="Areas\Admin\Views\_ViewImports.cshtml" />
     <None Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <None Include="Views\Dashboard\Index.cshtml" />

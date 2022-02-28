@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QuizApp.Models
 {
-    public partial class User
+    public partial class UserInfo
     {
-        public User()
+        public UserInfo()
         {
             UserAnswerTexts = new HashSet<UserAnswerText>();
             UserAnswers = new HashSet<UserAnswer>();
@@ -30,7 +30,6 @@ namespace QuizApp.Models
         public string Email { get; set; }
         public string DateCreated { get; set; }
 
-        public virtual Point Point { get; set; }
         public virtual ICollection<UserAnswerText> UserAnswerTexts { get; set; }
         public virtual ICollection<UserAnswer> UserAnswers { get; set; }
     }

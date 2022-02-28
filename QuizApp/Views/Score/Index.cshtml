@@ -1,0 +1,24 @@
+﻿@{ 
+    ViewBag.Title = "Hoàn thành bài thi";
+}
+<div class="container">
+    <div style="
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    ">
+        <div class="card text-center">
+            <div class="card-header">
+                Chúc mừng bạn đã hoàn thành bài thi
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.QuizTitle</h5>
+                <p class="card-text">Bạn đã làm đúng @ViewBag.Point / @ViewBag.Total câu</p>
+                <p class="card-text">Điểm của bạn là : @ViewBag.TotalPoint</p>
+                <a class="btn btn-primary" asp-area="" asp-controller="Dashboard" asp-action="Index">Trở về trang chủ</a>
+            </div>
+        </div>
+    </div>
+</div>

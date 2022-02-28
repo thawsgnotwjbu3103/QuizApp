@@ -34,7 +34,7 @@ namespace QuizApp.Controllers
             {
                 return View();
             }
-            var check = _context.Users
+            var check = _context.UserInfos
                 .Where(x => x.UserId == int.Parse(Request.Cookies["_id"]))
                 .FirstOrDefault();
             if (check == null) return View();
@@ -43,10 +43,10 @@ namespace QuizApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PostUsers([Bind("UserId,FullName,Gender,Birthday,IdNum,Address,PhoneNum,Email,DateCreated")] User user)
+        public async Task<IActionResult> PostUsers([Bind("UserId,FullName,Gender,Birthday,IdNum,Address,PhoneNum,Email,DateCreated")] UserInfo user)
         {
-            var existPhoneNum = _context.Users.Where(x => x.PhoneNum == user.PhoneNum).AsNoTracking().FirstOrDefault();
-            var existIdNum = _context.Users.Where(x => x.IdNum == user.IdNum).AsNoTracking().FirstOrDefault();
+            var existPhoneNum = _context.UserInfos.Where(x => x.PhoneNum == user.PhoneNum).AsNoTracking().FirstOrDefault();
+            var existIdNum = _context.UserInfos.Where(x => x.IdNum == user.IdNum).AsNoTracking().FirstOrDefault();
             if (ModelState.IsValid)
             {
                 if (existIdNum != null || existPhoneNum != null)

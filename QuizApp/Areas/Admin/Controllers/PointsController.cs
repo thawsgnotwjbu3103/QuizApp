@@ -22,7 +22,9 @@ namespace QuizApp.Areas.Admin.Controllers
         // GET: Admin/Points
         public async Task<IActionResult> Index(int id)
         {
-            var testContext = _context.Points.Include(p => p.PointNavigation).Where(x=>x.UserId == id);
+            var testContext = _context.Points.Where(x=>x.UserId == id);
+            var temp = testContext.Select(x => x.QuizId).FirstOrDefault();
+            ViewBag.Name = _context.TblQuizzes.Where(x => x.QuizId == temp).Select(x => x.QuizName).FirstOrDefault();
             return View(await testContext.ToListAsync());
         }
         private bool PointExists(int id)
