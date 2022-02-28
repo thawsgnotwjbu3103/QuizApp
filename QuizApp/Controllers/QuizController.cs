@@ -29,10 +29,10 @@ namespace QuizApp.Controllers
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });
 
             var question = _context.Questions.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
-            var questionText = _context.QuestionsTexts.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
+            var questionText = _context.QuestionTexts.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
 
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddDays(182.5);
+            options.Expires = new DateTimeOffset(2038, 1, 1, 0, 0, 0, TimeSpan.FromHours(0));
             Response.Cookies.Append("_quizId", id.ToString(), options);
 
             string time = _context.TblQuizzes.Where(x => x.QuizId == id).Select(q => q.Time).FirstOrDefault();

@@ -1,78 +1,112 @@
 ﻿@model QuizApp.Models.User
 @{
     ViewData["Title"] = "Trang chủ";
+    Layout = null;
 }
-
-<div class="row w-100 m-0 align-items-center" style="height:80vh !important">
-    <div class="d-md-block d-none col-md-6">
-        <div class="display-1 font-weight-bolder text-center text-primary">TITLE <br /> HERE</div>
-    </div>
-    <div class="col-md-6">
-        <div class="display-3">
-            <p class="display-4 font-weight-bolder text-center text-primary">Lorem ipsum dolor sit amet</p>
-            <p class="display-4 font-weight-bolder text-center text-danger">Lorem ipsum dolor</p>
-            <p class="display-4 font-weight-bolder text-center text-warning">Lorem ipsum </p>
-            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#UserPostModal">
-                ĐĂNG KÝ THI NGAY
-            </button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="bg-primary">
+    <header>
+        <div class="container">
+            <nav class="navbar navbar">
+                <div class="navbar-brand">
+                    <p style="font-size:35px;" class="text-white font-weight-light">Q U I Z .</p>
+                </div>
+            </nav>
         </div>
-    </div>
-</div>
-
-<div class="modal fade" id="UserPostModal" tabindex="-1" role="dialog" aria-labelledby="ModalLable" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form asp-area="" asp-controller="Home" asp-action="PostUsers">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title mx-auto" id="ModalLable">
-                        <p class="text-center">Cập nhập thông tin cá nhân</p>
-                        <p class="text-center">Hãy điền đầy đủ thông tin cá nhân. Các trường có dấu * là bắt buộc. Ban tổ chức sẽ không công nhận kết quả đối với trường hợp cung cấp không đầy đủ và chính xác thông tin cá nhân.</p>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="d-flex justify-content-center flex-column text-white" style="height:500px">
+                    <div class="display-4 font-weight-bold">Online Quiz.</div>
+                    <div class="my-3">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Eveniet error illo at incidunt non similique quis eos laudantium doloribus.
                     </div>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label asp-for="FullName" class="control-label">Họ và tên *</label>
-                        <input asp-for="FullName" class="form-control" />
-                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    <div class="d-block">
+                        <button type="button" class="btn btn-outline-light focusnone" data-toggle="modal" data-target="#UserPostModal">Bắt đầu dự thi</button>
+                        <a href="#" class="btn btn-light">Tìm hiểu thêm</a>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Gender" class="control-label">Giới tính *</label>
-                        <select asp-for="Gender" asp-items="@ViewBag.Gender" class="form-control">
-                            <option selected disabled>Chọn giới tính</option>
-                        </select>
-                        <span asp-validation-for="Gender" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Birthday" class="control-label">Ngày sinh *</label>
-                        <input asp-for="Birthday" type="date" class="form-control" />
-                        <span asp-validation-for="Birthday" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="IdNum" class="control-label">CMND/CCCD *</label>
-                        <input asp-for="IdNum" class="form-control" />
-                        <span asp-validation-for="IdNum" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Address" class="control-label">Địa chỉ *</label>
-                        <input asp-for="Address" class="form-control" />
-                        <span asp-validation-for="Address" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PhoneNum" class="control-label">Số điện thoại *</label>
-                        <input asp-for="PhoneNum" class="form-control" />
-                        <span asp-validation-for="PhoneNum" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label">Email</label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Vào thi</button>
                 </div>
             </div>
-        </form>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div style="height:500px" class="d-flex justify-content-center flex-column">
+                    <img class="img-fluid" src="~/pngegg.png" />
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
+
+    <div class="modal fade" id="UserPostModal" tabindex="-1" role="dialog" aria-labelledby="ModalLable" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form asp-area="" asp-controller="Home" asp-action="PostUsers">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto" id="ModalLable">
+                            <p class="text-center font-weight-light">Cập nhập thông tin cá nhân</p>
+                            <p class="text-center font-weight-light">Hãy điền đầy đủ thông tin cá nhân. Các trường có dấu * là bắt buộc. Ban tổ chức sẽ không công nhận kết quả đối với trường hợp cung cấp không đầy đủ và chính xác thông tin cá nhân.</p>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label asp-for="FullName" class="control-label">Họ và tên *</label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Gender" class="control-label">Giới tính *</label>
+                            <select asp-for="Gender" asp-items="@ViewBag.Gender" class="form-control">
+                                <option selected disabled>Chọn giới tính</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Birthday" class="control-label">Ngày sinh *</label>
+                            <input asp-for="Birthday" type="date" class="form-control" />
+                            <span asp-validation-for="Birthday" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="IdNum" class="control-label">CMND/CCCD *</label>
+                            <input asp-for="IdNum" class="form-control" />
+                            <span asp-validation-for="IdNum" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label">Địa chỉ *</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneNum" class="control-label">Số điện thoại *</label>
+                            <input asp-for="PhoneNum" class="form-control" />
+                            <span asp-validation-for="PhoneNum" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Vào thi</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
+</body>
+</html>
+

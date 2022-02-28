@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuizApp.Models.QuestionsText>
+﻿@model IEnumerable<QuizApp.Models.QuestionText>
 
 @{
     ViewData["Title"] = "Danh sách câu hỏi tự luận";
@@ -35,7 +35,7 @@
                             <tr>
                                 <td>@item.QuestionTextTitle</td>
                                 <td>
-                                    <a class="btn btn-warning" asp-area="Admin" asp-controller="QuestionsTexts" asp-action="Edit" asp-route-id="@item.QuestionTextId">Chỉnh sửa</a>
+                                    <a class="btn btn-warning" asp-area="Admin" asp-controller="QuestionTexts" asp-action="Edit" asp-route-id="@item.QuestionTextId">Chỉnh sửa</a>
                                 </td>
                             </tr>
                         }

@@ -4,9 +4,15 @@
 
 <div class="row">
     <div class="col-2">
-        <div style="background-color: #f0f5f5; width: 200px; height: 170px; font-size: 30px;"
-             class="mt-5 position-fixed d-flex justify-content-center align-items-center">
-            <div style="font-size: 30px;" class="text-center" id="timer"></div>
+        <div style="background-color: #f0f5f5; width: 170px; height: 170px; border-radius: 10px;"
+             class="mt-5 d-none position-fixed d-lg-flex justify-content-center align-items-center flex-column">
+            <div style="font-size: 40px;" class="text-center font-weight-bolder text-primary" id="timerLarge"></div>
+            <div style="font-size: 12px;" class="text-center font-weight-bolder text-primary">Phút : Giây</div>
+        </div>
+        <div style="background-color: #f0f5f5; width: 80px; height: 80px; border-radius: 10px;"
+             class="mt-5 d-md-none position-fixed d-sm-flex justify-content-center align-items-center flex-column">
+            <div style="font-size: 20px;" class="text-center font-weight-bolder text-primary" id="timerSmall"></div>
+            <div style="font-size: 10px;" class="text-center font-weight-bolder text-primary">Phút : Giây</div>
         </div>
     </div>
     <div class="col-10">
@@ -20,15 +26,26 @@
                         {
                             if (item.QuizId == answer.QuizId && item.QuestionId == answer.QuestionId)
                             {
-                                <div class="form-check">
-                                    <input class="form-check-input chb_@item.QuestionId" id="@answer.ChoiceId" name="answerList" type="checkbox" value="@answer.ChoiceId" />
-                                    <label for="@answer.ChoiceId">@answer.Choice</label>
-                                </div>
+                                if (item.IsMultipleChoices == false)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input chb_@item.QuestionId" id="@answer.ChoiceId" name="answerList" type="checkbox" value="@answer.ChoiceId" />
+                                        <label for="@answer.ChoiceId">@answer.Choice</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="@answer.ChoiceId" name="answerList" type="checkbox" value="@answer.ChoiceId" />
+                                        <label for="@answer.ChoiceId">@answer.Choice</label>
+                                    </div>
+                                }
                             }
+
                         }
                     </div>
                 }
-                @foreach (var item in (IEnumerable<QuestionsText>)ViewBag.QuestionText)
+                @foreach (var item in (IEnumerable<QuestionText>)ViewBag.QuestionText)
                 {
                     <input type="hidden" value="@item.QuestionTextId" name="qtId" />
                     <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
@@ -40,7 +57,7 @@
                     <p>Dự đoán số người trả lời đúng</p>
                     <input type="number" name="matches" />
                 </div>
-                <input type="submit" onclick="return confirm('Bạn có muốn nộp bài ?')" class="btn btn-primary float-right" value="Nộp bài" />
+                <input type="submit" onclick="return confirm('Bạn có muốn nộp bài ?')" class="btn btn-primary w-100" value="Nộp bài" />
             </form>
         </div>
     </div>
@@ -49,15 +66,15 @@
 @section Scripts{
     @foreach (var item in (IEnumerable<Question>)ViewBag.Questions)
     {
-<script>
+        <script>
            $(".chb_@item.QuestionId").change(function () {
                 $(".chb_@item.QuestionId").prop('checked', false);
                     $(this).prop('checked', true);
                 });
-</script>
+        </script>
     }
 
-    <script>
+<script>
             function startTimer(duration, display) {
                 var timer = duration, minutes, seconds;
                 setInterval(function () {
@@ -70,9 +87,10 @@
                     display.text(minutes + ":" + seconds);
 
                     if (--timer < 0) {
-                        jQuery(function ($) {
-                            $('form#startForm').submit();
-                        });
+                        //jQuery(function ($) {
+                        //    $('form#startForm').submit();
+                        //});
+                        timer = duration;
                     }
                 }, 1000);
             }
@@ -80,10 +98,17 @@
         jQuery(function ($) {
             var int = @ViewBag.Time;
                 var Minutes = int * 60,
-                    display = $('#timer');
+                    display = $('#timerLarge');
                 startTimer(Minutes, display);
-            });
-        </script>
+        });
+
+        jQuery(function ($) {
+            var int = @ViewBag.Time;
+                var Minutes = int * 60,
+                    display = $('#timerSmall');
+                startTimer(Minutes, display);
+        });
+</script>
 }
 
 

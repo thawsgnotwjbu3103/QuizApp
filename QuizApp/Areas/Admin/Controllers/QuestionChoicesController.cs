@@ -56,7 +56,7 @@ namespace QuizApp.Areas.Admin.Controllers
         // POST: Admin/QuestionChoices/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, [Bind("ChoiceId,QuestionId,IsRight,Choice")] QuestionChoice questionChoice)
+        public async Task<IActionResult> Create(int id, [Bind("ChoiceId,QuestionId,QuizId,IsRight,Choice")] QuestionChoice questionChoice)
         {
             var check = (from qc in _context.QuestionChoices
                          join q in _context.Questions on qc.QuestionId equals q.QuestionId
@@ -67,6 +67,7 @@ namespace QuizApp.Areas.Admin.Controllers
                          {
                              temp = qc.IsRight
                          }).Count();
+            var quizId = _context.Questions.Where(x => x.QuestionId == id).Select(q => q.QuizId).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 if(questionChoice.IsRight == true && check == 1)
@@ -75,6 +76,7 @@ namespace QuizApp.Areas.Admin.Controllers
                     return View(questionChoice);
                 };
                 questionChoice.QuestionId = id;
+                questionChoice.QuizId = quizId;
                 _context.Add(questionChoice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { id = id});
@@ -104,19 +106,19 @@ namespace QuizApp.Areas.Admin.Controllers
         // POST: Admin/QuestionChoices/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ChoiceId,QuestionId,IsRight,Choice")] QuestionChoice questionChoice)
+        public async Task<IActionResult> Edit(int id, [Bind("ChoiceId,QuestionId,QuizId,IsRight,Choice")] QuestionChoice questionChoice)
         {
-            var oldId = _context.QuestionChoices.Where(x => x.ChoiceId == id).Select(m => m.QuestionId).FirstOrDefault();
+            var oldId = _context.QuestionChoices.Where(x => x.ChoiceId == id).AsNoTracking().FirstOrDefault();
             var check = (from qc in _context.QuestionChoices
                          join q in _context.Questions on qc.QuestionId equals q.QuestionId
-                         where q.QuestionId == oldId &&
+                         where q.QuestionId == oldId.QuestionId &&
                          q.IsMultipleChoices == false &&
                          qc.IsRight == true
                          select new
                          {
                              temp = qc.IsRight
                          }).Count();
-            ViewBag.qId = oldId;
+            ViewBag.qId = oldId.QuestionId;
             if (id != questionChoice.ChoiceId)
             {
                 return NotFound();
@@ -131,7 +133,8 @@ namespace QuizApp.Areas.Admin.Controllers
                         _notifyService.Warning("Không thể có hai câu trả lời đúng trong câu hỏi có dạng duy nhất");
                         return View(questionChoice);
                     };
-                    questionChoice.QuestionId = oldId;
+                    questionChoice.QuestionId = oldId.QuestionId;
+                    questionChoice.QuizId = oldId.QuizId;
                     _context.Update(questionChoice);
                     await _context.SaveChangesAsync();
                 }

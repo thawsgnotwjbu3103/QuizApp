@@ -21,7 +21,7 @@ namespace QuizApp.Models
         public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionChoice> QuestionChoices { get; set; }
-        public virtual DbSet<QuestionsText> QuestionsTexts { get; set; }
+        public virtual DbSet<QuestionText> QuestionTexts { get; set; }
         public virtual DbSet<TblQuiz> TblQuizzes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAnswer> UserAnswers { get; set; }
@@ -60,11 +60,23 @@ namespace QuizApp.Models
             {
                 entity.Property(e => e.PointId).ValueGeneratedOnAdd();
 
+                entity.Property(e => e.UaTextId).HasColumnName("uaTextId");
+
                 entity.HasOne(d => d.PointNavigation)
                     .WithOne(p => p.Point)
                     .HasForeignKey<Point>(d => d.PointId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Points_Users");
+
+                entity.HasOne(d => d.UaText)
+                    .WithMany(p => p.Points)
+                    .HasForeignKey(d => d.UaTextId)
+                    .HasConstraintName("FK_Points_UserAnswerTexts");
+
+                entity.HasOne(d => d.UserAnswers)
+                    .WithMany(p => p.Points)
+                    .HasForeignKey(d => d.UserAnswersId)
+                    .HasConstraintName("FK_Points_User_Answers");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -92,18 +104,14 @@ namespace QuizApp.Models
                     .HasConstraintName("FK_Question_choices_Questions");
             });
 
-            modelBuilder.Entity<QuestionsText>(entity =>
+            modelBuilder.Entity<QuestionText>(entity =>
             {
-                entity.HasKey(e => e.QuestionTextId);
-
-                entity.ToTable("QuestionsText");
-
                 entity.Property(e => e.QuestionTextTitle)
                     .HasMaxLength(10)
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.Quiz)
-                    .WithMany(p => p.QuestionsTexts)
+                    .WithMany(p => p.QuestionTexts)
                     .HasForeignKey(d => d.QuizId)
                     .HasConstraintName("FK_QuestionsText_TblQuiz");
             });
