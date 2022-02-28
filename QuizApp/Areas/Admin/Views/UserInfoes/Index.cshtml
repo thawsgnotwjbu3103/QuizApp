@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuizApp.Models.User>
+﻿@model IEnumerable<QuizApp.Models.UserInfo>
 
 @{
     ViewData["Title"] = "Quản lý thông tin cá nhân";
@@ -39,8 +39,8 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach(var item in Model)
-                   {
+                    @foreach (var item in Model)
+                    {
                         <tr>
                             <td>@item.FullName</td>
                             <td>@item.Gender</td>
@@ -51,10 +51,11 @@
                             <td>@item.Email</td>
                             <td>@item.DateCreated</td>
                             <td>
-                                <a class="btn btn-primary" asp-area="Admin" asp-controller="Points" asp-action="Index" asp-route-id="@item.UserId">Xem điểm</a>
+                                <a class="btn btn-primary mb-2" asp-area="Admin" asp-controller="Points" asp-action="Index" asp-route-id="@item.UserId">Xem điểm trắc nghiệm</a>
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="UserAnswerTexts" asp-action="Index" asp-route-id="@item.UserId">Xem trả lời tự luận</a>
                             </td>
                         </tr>
-                   } 
+                    }
                 </tbody>
             </table>
         </div>

@@ -1,0 +1,22 @@
+﻿@model QuizApp.Models.UserAnswerText
+
+@{
+    ViewData["Title"] = "Câu trả lời tự luận";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
+    </div>
+    <div class="card-body">
+        <dl>
+            <dt>Dự đoán : </dt>
+            <dd>@Model.Matches</dd>
+            <dt>Tựa câu hỏi :</dt>
+            <dd>@Model.QuestionText.QuestionTextTitle</dd>
+            <dt>Câu trả lời :</dt>
+            <dd>@Model.QuestionTextTitle</dd>
+        </dl>
+    </div>
+</div>

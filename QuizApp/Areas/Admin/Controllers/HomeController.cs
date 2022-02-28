@@ -19,7 +19,7 @@ namespace QuizApp.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.Users = _context.Users.Count();
+            ViewBag.Users = _context.UserInfos.Count();
             ViewBag.Quizs = _context.TblQuizzes.Count();
             return View();
         }

@@ -10,23 +10,23 @@ using QuizApp.Models;
 namespace QuizApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UsersController : Controller
+    public class UserInfoesController : Controller
     {
         private readonly testContext _context;
 
-        public UsersController(testContext context)
+        public UserInfoesController(testContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.UserInfos.ToListAsync());
         }
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.UserInfos.Any(e => e.UserId == id);
         }
     }
 }

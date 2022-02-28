@@ -24,12 +24,14 @@ namespace QuizApp.Controllers
             {
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
-            var check = _context.Users
-                .Where(x => x.UserId == int.Parse(Request.Cookies["_id"]))
+            int id = int.Parse(Request.Cookies["_id"]);
+            var check = _context.UserInfos
+                .Where(x => x.UserId == id)
                 .FirstOrDefault();
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });
 
 
+            ViewBag.Check = _context.DisableLists.Where(x=>x.UserId == id).ToList();
             ViewBag.Gender = check.Gender;
             ViewBag.PhoneNum = check.PhoneNum;
             ViewBag.IdNum = check.IdNum;
@@ -43,7 +45,7 @@ namespace QuizApp.Controllers
             {
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
-            var check = _context.Users
+            var check = _context.UserInfos
                 .Where(x => x.UserId == int.Parse(Request.Cookies["_id"]))
                 .FirstOrDefault();
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });

@@ -14,11 +14,13 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
+                        <th>Bài thi</th>
                         <th>Tổng điểm</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>Bài thi</th>
                         <th>Tổng điểm</th>
                     </tr>
                 </tfoot>
@@ -26,6 +28,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>@ViewBag.Name</td>
                             <td>@item.TotalPoint</td>
                         </tr>
                     }

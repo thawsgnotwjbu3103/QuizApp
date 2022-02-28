@@ -1,4 +1,5 @@
-﻿@{
+﻿@model QuizApp.Models.QuestionText
+@{
     ViewBag.Title = "Bài thi";
 }
 
@@ -55,7 +56,7 @@
                 }
                 <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
                     <p>Dự đoán số người trả lời đúng</p>
-                    <input type="number" name="matches" />
+                    <input type="number" name="matches"/>
                 </div>
                 <input type="submit" onclick="return confirm('Bạn có muốn nộp bài ?')" class="btn btn-primary w-100" value="Nộp bài" />
             </form>
@@ -74,7 +75,7 @@
         </script>
     }
 
-<script>
+    <script>
             function startTimer(duration, display) {
                 var timer = duration, minutes, seconds;
                 setInterval(function () {
@@ -87,10 +88,9 @@
                     display.text(minutes + ":" + seconds);
 
                     if (--timer < 0) {
-                        //jQuery(function ($) {
-                        //    $('form#startForm').submit();
-                        //});
-                        timer = duration;
+                        jQuery(function ($) {
+                            $('form#startForm').submit();
+                        });
                     }
                 }, 1000);
             }
@@ -108,7 +108,7 @@
                     display = $('#timerSmall');
                 startTimer(Minutes, display);
         });
-</script>
+    </script>
 }
 
 

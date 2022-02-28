@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace QuizApp.Models
 {
-    public partial class testContext : DbContext
+    public partial class testContext : IdentityDbContext
     {
         public testContext()
         {
@@ -17,15 +18,16 @@ namespace QuizApp.Models
         {
         }
 
+        public virtual DbSet<DisableList> DisableLists { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionChoice> QuestionChoices { get; set; }
         public virtual DbSet<QuestionText> QuestionTexts { get; set; }
         public virtual DbSet<TblQuiz> TblQuizzes { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAnswer> UserAnswers { get; set; }
         public virtual DbSet<UserAnswerText> UserAnswerTexts { get; set; }
+        public virtual DbSet<UserInfo> UserInfos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,6 +40,11 @@ namespace QuizApp.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<DisableList>(entity =>
+            {
+                entity.Property(e => e.DisableId).HasColumnName("disableId");
+            });
 
             modelBuilder.Entity<Notification>(entity =>
             {
@@ -54,29 +61,6 @@ namespace QuizApp.Models
                 entity.Property(e => e.NotifyContent).IsRequired();
 
                 entity.Property(e => e.Title).IsRequired();
-            });
-
-            modelBuilder.Entity<Point>(entity =>
-            {
-                entity.Property(e => e.PointId).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.UaTextId).HasColumnName("uaTextId");
-
-                entity.HasOne(d => d.PointNavigation)
-                    .WithOne(p => p.Point)
-                    .HasForeignKey<Point>(d => d.PointId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Points_Users");
-
-                entity.HasOne(d => d.UaText)
-                    .WithMany(p => p.Points)
-                    .HasForeignKey(d => d.UaTextId)
-                    .HasConstraintName("FK_Points_UserAnswerTexts");
-
-                entity.HasOne(d => d.UserAnswers)
-                    .WithMany(p => p.Points)
-                    .HasForeignKey(d => d.UserAnswersId)
-                    .HasConstraintName("FK_Points_User_Answers");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -136,43 +120,6 @@ namespace QuizApp.Models
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Birthday)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.DateCreated)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FullName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Gender)
-                    .IsRequired()
-                    .HasMaxLength(3);
-
-                entity.Property(e => e.IdNum)
-                    .IsRequired()
-                    .HasMaxLength(12)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PhoneNum)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<UserAnswer>(entity =>
             {
                 entity.HasKey(e => e.UserAnswersId);
@@ -221,6 +168,48 @@ namespace QuizApp.Models
                     .HasConstraintName("FK_UserAnswerTexts_Users");
             });
 
+            modelBuilder.Entity<UserInfo>(entity =>
+            {
+                entity.HasKey(e => e.UserId)
+                    .HasName("PK_Users");
+
+                entity.ToTable("User_Infos");
+
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Birthday)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.DateCreated)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FullName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Gender)
+                    .IsRequired()
+                    .HasMaxLength(3);
+
+                entity.Property(e => e.IdNum)
+                    .IsRequired()
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNum)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+            base.OnModelCreating(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
         }
 
