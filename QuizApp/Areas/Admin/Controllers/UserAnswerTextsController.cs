@@ -49,7 +49,7 @@ namespace QuizApp.Areas.Admin.Controllers
         // GET: Admin/UserAnswerTexts/Create
         public IActionResult Create()
         {
-            ViewData["QuestionTextId"] = new SelectList(_context.QuestionsTexts, "QuestionTextId", "QuestionTextTitle");
+            ViewData["QuestionTextId"] = new SelectList(_context.QuestionTexts, "QuestionTextId", "QuestionTextTitle");
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Address");
             return View();
         }
@@ -67,7 +67,7 @@ namespace QuizApp.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["QuestionTextId"] = new SelectList(_context.QuestionsTexts, "QuestionTextId", "QuestionTextTitle", userAnswerText.QuestionTextId);
+            ViewData["QuestionTextId"] = new SelectList(_context.QuestionTexts, "QuestionTextId", "QuestionTextTitle", userAnswerText.QuestionTextId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Address", userAnswerText.UserId);
             return View(userAnswerText);
         }
@@ -85,7 +85,7 @@ namespace QuizApp.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["QuestionTextId"] = new SelectList(_context.QuestionsTexts, "QuestionTextId", "QuestionTextTitle", userAnswerText.QuestionTextId);
+            ViewData["QuestionTextId"] = new SelectList(_context.QuestionTexts, "QuestionTextId", "QuestionTextTitle", userAnswerText.QuestionTextId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Address", userAnswerText.UserId);
             return View(userAnswerText);
         }
@@ -122,7 +122,7 @@ namespace QuizApp.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["QuestionTextId"] = new SelectList(_context.QuestionsTexts, "QuestionTextId", "QuestionTextTitle", userAnswerText.QuestionTextId);
+            ViewData["QuestionTextId"] = new SelectList(_context.QuestionTexts, "QuestionTextId", "QuestionTextTitle", userAnswerText.QuestionTextId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Address", userAnswerText.UserId);
             return View(userAnswerText);
         }

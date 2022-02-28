@@ -29,11 +29,12 @@ namespace QuizApp
         {
             services.AddControllersWithViews();
             services.AddNotyf(config => { config.DurationInSeconds = 5; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
-            services.AddDbContext<testContext>(options => 
+            services.AddDbContext<testContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultCon"));
             });
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

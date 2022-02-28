@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QuizApp.Models
 {
-    public partial class QuestionsText
+    public partial class QuestionText
     {
-        public QuestionsText()
+        public QuestionText()
         {
             UserAnswerTexts = new HashSet<UserAnswerText>();
         }

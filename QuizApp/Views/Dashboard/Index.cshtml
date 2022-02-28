@@ -3,7 +3,6 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -12,56 +11,51 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="~/assets/user/assets/favicon.ico" />
-    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="~/assets/user/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
     <div class="d-flex" id="wrapper">
-        <!-- Sidebar-->
-        <div class="border-end bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading border-bottom bg-primary">
+        <div class="bg-white border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom">
                 <div class="d-flex flex-column justify-content-center align-items-center text-white">
                     @if (ViewBag.Gender == "Nam")
                     {
-                        <img src="~/assets/user/imgs/undraw_profile_2.svg" width="75" height="75" />
+                        <img src="~/assets/user/imgs/undraw_profile_2.svg" class="mb-2" width="50" height="50" />
                     }
                     else
                     {
-                        <img src="~/assets/user/imgs/undraw_profile_3.svg" width="75" height="75" />
+                        <img src="~/assets/user/imgs/undraw_profile_3.svg" class="mb-2" width="50" height="50" />
                     }
-                    <p class="text-center">
-                        @ViewBag.PhoneNum <br />
-                        @ViewBag.IdNum
+                    <p class="text-center text-primary">
+                        SDT: @ViewBag.PhoneNum <br />
+                        ID: @ViewBag.IdNum
                     </p>
                 </div>
             </div>
-            <div class="list-group list-group-flush">
+            <div class="list-group list-group-flush border-right">
                 <form asp-area="" asp-controller="Dashboard" asp-action="Logout">      
                     <input type="submit" 
-                    class="list-group-item text-center list-group-item-action list-group-item-light p-3" 
+                    class="border-0 list-group-item text-center list-group-item-action list-group-item-light p-3 text-primary" 
                     value="Đăng xuất"
                     onclick="return confirm('Bạn có muốn thoát ?')"/>
                 </form>
             </div>
         </div>
-        <!-- Page content wrapper-->
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-primary border-bottom">
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary border-bottom" style="box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);">
                 <div class="container-fluid my-2">
-                    <div class="text-white font-weight-bolder">LOGO HERE</div>
+                    <div class="font-weight-light text-white">Q U I Z .</div>
                 </div>
             </nav>
-            <!-- Page content-->
             <div class="container-fluid">
                 <div>
                     <div class="mx-auto my-5" style="width: 85%">
                         <table class="table border">
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <th class="border-0">Danh sách thông báo</th>
+                                    <th class="border-0 font-weight-light">Danh sách thông báo</th>
                                     <th class="border-0"></th>
                                 </tr>
                             </thead>
@@ -89,11 +83,11 @@
                         <table class="table border">
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <th colspan="4" class="border-bottom">Danh sách bài thi</th>
+                                    <th colspan="4" class="font-weight-light border-bottom">Danh sách bài thi</th>
                                 </tr>
                                 <tr>
-                                    <th class="border-0">Tên bài thi</th>
-                                    <th class="border-0">Thời gian làm bài</th>
+                                    <th class="border-0 font-weight-light">Tên bài thi</th>
+                                    <th class="border-0 font-weight-light">Thời gian làm bài</th>
                                     <th class="border-0"></th>
                                 </tr>
                             </thead>
@@ -122,11 +116,9 @@
             </div>
         </div>
     </div>
-    <!-- Bootstrap core JS-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <!-- Core theme JS-->
     <script src="~/assets/user/js/scripts.js"></script>
 </body>
 

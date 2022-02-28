@@ -38,15 +38,15 @@ namespace QuizApp.Controllers
                 .Where(x => x.UserId == int.Parse(Request.Cookies["_id"]))
                 .FirstOrDefault();
             if (check == null) return View();
-            return RedirectToAction("Index", "Dashboard", new { area = ""});
+            return RedirectToAction("Index", "Dashboard", new { area = "" });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostUsers([Bind("UserId,FullName,Gender,Birthday,IdNum,Address,PhoneNum,Email,DateCreated")] User user)
         {
-            var existPhoneNum = _context.Users.Where(x => x.PhoneNum == user.PhoneNum).FirstOrDefault();
-            var existIdNum = _context.Users.Where(x => x.IdNum == user.IdNum).FirstOrDefault();
+            var existPhoneNum = _context.Users.Where(x => x.PhoneNum == user.PhoneNum).AsNoTracking().FirstOrDefault();
+            var existIdNum = _context.Users.Where(x => x.IdNum == user.IdNum).AsNoTracking().FirstOrDefault();
             if (ModelState.IsValid)
             {
                 if (existIdNum != null || existPhoneNum != null)
@@ -58,14 +58,15 @@ namespace QuizApp.Controllers
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 CookieOptions options = new CookieOptions();
-                options.Expires = DateTime.Now.AddDays(182.5);
+                options.Expires = new DateTimeOffset(2038, 1, 1, 0, 0, 0, TimeSpan.FromHours(0));
                 Response.Cookies.Append("_id", user.UserId.ToString(), options);
                 Response.Cookies.Append("_phoneNum", user.PhoneNum, options);
                 Response.Cookies.Append("_idNum", user.IdNum, options);
                 Response.Cookies.Append("_gender", user.Gender, options);
                 return RedirectToAction("Index", "Dashboard", new { area = "", id = user.UserId });
             }
-            return View(user);
+            _notifyService.Error("Vui lòng nhập đầy đủ thông tin");
+            return RedirectToAction("Index","Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

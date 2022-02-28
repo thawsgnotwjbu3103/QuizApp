@@ -6,14 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Admin\Views\Notifications\**" />
-    <Compile Remove="Areas\Admin\Views\TblQuizs\**" />
-    <Content Remove="Areas\Admin\Views\Notifications\**" />
-    <Content Remove="Areas\Admin\Views\TblQuizs\**" />
-    <EmbeddedResource Remove="Areas\Admin\Views\Notifications\**" />
-    <EmbeddedResource Remove="Areas\Admin\Views\TblQuizs\**" />
-    <None Remove="Areas\Admin\Views\Notifications\**" />
-    <None Remove="Areas\Admin\Views\TblQuizs\**" />
+    <Compile Remove="Areas\Admin\Views\QuestionsTexts\**" />
+    <Content Remove="Areas\Admin\Views\QuestionsTexts\**" />
+    <EmbeddedResource Remove="Areas\Admin\Views\QuestionsTexts\**" />
+    <None Remove="Areas\Admin\Views\QuestionsTexts\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,13 +30,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\Home\Index.cshtml" />
     <None Include="Areas\Admin\Views\Notifications\Create.cshtml" />
     <None Include="Areas\Admin\Views\Notifications\Details.cshtml" />
     <None Include="Areas\Admin\Views\Notifications\Edit.cshtml" />
     <None Include="Areas\Admin\Views\Notifications\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Points\Index.cshtml" />
+    <None Include="Areas\Admin\Views\QuestionChoices\Create.cshtml" />
+    <None Include="Areas\Admin\Views\QuestionChoices\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\QuestionChoices\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Questions\Create.cshtml" />
+    <None Include="Areas\Admin\Views\Questions\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\Questions\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\Error.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\_sideBarPartial.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Areas\Admin\Views\TblQuizs\Create.cshtml" />
     <None Include="Areas\Admin\Views\TblQuizs\Edit.cshtml" />
     <None Include="Areas\Admin\Views\TblQuizs\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Users\Index.cshtml" />
+    <None Include="Areas\Admin\Views\_ViewImports.cshtml" />
+    <None Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <None Include="Views\Dashboard\Index.cshtml" />
+    <None Include="Views\Dashboard\NotifyDetails.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Quiz\Start.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
     <None Include="wwwroot\assets\user\js\scripts.js" />
   </ItemGroup>
 
