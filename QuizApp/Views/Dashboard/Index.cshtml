@@ -10,15 +10,15 @@
     <meta name="author" content="" />
     <title>Dashboard</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="icon" type="image/x-icon" href="~/assets/user/assets/favicon.ico" />
+    <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/assets/user/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
     <div class="d-flex" id="wrapper">
-        <div class="bg-white border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading border-bottom">
+        <div class="bg-primary" id="sidebar-wrapper">
+            <div class="sidebar-heading">
                 <div class="d-flex flex-column justify-content-center align-items-center text-white">
                     @if (ViewBag.Gender == "Nam")
                     {
@@ -28,16 +28,16 @@
                     {
                         <img src="~/assets/user/imgs/undraw_profile_3.svg" class="mb-2" width="50" height="50" />
                     }
-                    <p class="text-center text-primary">
+                    <p class="text-center font-weight-light text-white">
                         SDT: @ViewBag.PhoneNum <br />
                         ID: @ViewBag.IdNum
                     </p>
                 </div>
             </div>
-            <div class="list-group list-group-flush border-right">
+            <div class="list-group list-group-flush">
                 <form asp-area="" asp-controller="Dashboard" asp-action="Logout">
                     <input type="submit"
-                           class="border-0 list-group-item text-center list-group-item-action list-group-item-light p-3 text-primary"
+                           class="border-2 list-group-item font-weight-light text-center list-group-item-action list-group-item-light p-3 text-white bg-primary"
                            value="Đăng xuất"
                            onclick="return confirm('Bạn có muốn thoát ?')" />
                 </form>
@@ -72,7 +72,7 @@
                                             </small>
                                         </td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary w-100" asp-area="" asp-controller="Dashboard" asp-action="NotifyDetails" asp-route-id="@item.NotifyId" target="_blank">Xem</a>
+                                            <a class="btn btn-outline-primary w-50 float-right" asp-area="" asp-controller="Dashboard" asp-action="NotifyDetails" asp-route-id="@item.NotifyId" target="_blank">Xem</a>
                                         </td>
                                     </tr>
                                 }
@@ -83,7 +83,7 @@
                         <table class="table border">
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <th colspan="4" class="font-weight-light border-bottom">Danh sách bài thi</th>
+                                    <th colspan="4" class="border-0 font-weight-light">Danh sách bài thi</th>
                                 </tr>
                                 <tr>
                                     <th class="border-0 font-weight-light">Tên bài thi</th>
@@ -107,7 +107,7 @@
                                             </td>
                                             <td class="text-left">@item.Time</td>
                                             <td>
-                                                <a class="btn btn-sm btn-outline-primary w-100" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
+                                                <a class="btn btn-outline-primary w-50" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
                                             </td>
                                         </tr>
                                     }
@@ -128,7 +128,7 @@
                                                     </td>
                                                     <td class="text-left">@item.Time</td>
                                                     <td>
-                                                        <a class="btn btn-sm btn-outline-primary w-100" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
+                                                        <a class="btn btn-outline-primary w-75 float-right" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
                                                     </td>
                                                 </tr>
                                             }

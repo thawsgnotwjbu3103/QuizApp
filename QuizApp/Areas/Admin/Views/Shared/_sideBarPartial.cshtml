@@ -1,17 +1,15 @@
 ﻿<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" 
-       asp-area="Admin" asp-controller="Home" asp-action="Index"
-    >
-        <div class="sidebar-brand-icon rotate-n-15"></div>
-        <div class="sidebar-brand-text mx-3">Logo Here</div>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center"
+       asp-area="Admin" asp-controller="Home" asp-action="Index">
+        <div class="sidebar-brand-icon rotate-n-15 font-weight-light">Q U I Z .</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Index">
+        <a class="nav-link" asp-area="Admin" asp-controller="UserInfoes" asp-action="Index">
             <i></i>
             <span>Quản lý thông tin cá nhân</span>
         </a>
@@ -35,4 +33,10 @@
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
+    <form asp-area="" asp-controller="Account" asp-action="Logout" class="nav-item m-0" style="
+    position: absolute;
+    bottom: 0;
+    ">
+        <input class="border-0 nav-link text-center font-weight-light bg-primary" type="submit" onclick="return confirm('Đăng xuất ?')" value="Đăng xuất" />
+    </form>
 </ul>
