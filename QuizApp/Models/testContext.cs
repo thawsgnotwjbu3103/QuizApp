@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using QuizApp.Models;
 
 #nullable disable
 
@@ -209,10 +210,12 @@ namespace QuizApp.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
             });
-            base.OnModelCreating(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<QuizApp.Models.Admin> Admin { get; set; }
     }
 }

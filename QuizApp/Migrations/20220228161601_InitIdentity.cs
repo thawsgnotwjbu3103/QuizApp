@@ -3,41 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuizApp.Migrations
 {
-    public partial class identityInit : Migration
+    public partial class InitIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_User_Answers_Users",
-                table: "User_Answers");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_UserAnswerTexts_Users",
-                table: "UserAnswerTexts");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "QuestionTextTitle",
-                table: "UserAnswerTexts",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Matches",
-                table: "UserAnswerTexts",
-                type: "nchar(10)",
-                fixedLength: true,
-                maxLength: 10,
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nchar(10)",
-                oldFixedLength: true,
-                oldMaxLength: 10);
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -76,27 +45,6 @@ namespace QuizApp.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "User_Infos",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    Birthday = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    IdNum = table.Column<string>(type: "varchar(12)", unicode: false, maxLength: 12, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNum = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
-                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    DateCreated = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
@@ -242,33 +190,10 @@ namespace QuizApp.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_User_Answers_Users",
-                table: "User_Answers",
-                column: "UserId",
-                principalTable: "User_Infos",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserAnswerTexts_Users",
-                table: "UserAnswerTexts",
-                column: "UserId",
-                principalTable: "User_Infos",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_User_Answers_Users",
-                table: "User_Answers");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_UserAnswerTexts_Users",
-                table: "UserAnswerTexts");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -285,73 +210,10 @@ namespace QuizApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "User_Infos");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "QuestionTextTitle",
-                table: "UserAnswerTexts",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Matches",
-                table: "UserAnswerTexts",
-                type: "nchar(10)",
-                fixedLength: true,
-                maxLength: 10,
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nchar(10)",
-                oldFixedLength: true,
-                oldMaxLength: 10,
-                oldNullable: true);
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Birthday = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DateCreated = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    IdNum = table.Column<string>(type: "varchar(12)", unicode: false, maxLength: 12, nullable: false),
-                    PhoneNum = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
-                });
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_User_Answers_Users",
-                table: "User_Answers",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserAnswerTexts_Users",
-                table: "UserAnswerTexts",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
         }
     }
 }
