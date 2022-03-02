@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ using QuizApp.Models;
 namespace QuizApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class NotificationsController : Controller
     {
         private readonly testContext _context;
