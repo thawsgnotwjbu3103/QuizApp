@@ -22,6 +22,15 @@ namespace QuizApp.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            var userTests = (from u in _context.UserInfos
+                                 join ua in _context.UserAnswers on u.UserId equals ua.UserId
+                                 join q in _context.TblQuizzes on ua.QuizId equals q.QuizId
+                                 select new UserTests
+                                 {
+                                     QuizName = q.QuizName,
+                                     FullName = u.FullName
+                                 }).Distinct().ToList();
+            ViewBag.UserTests = userTests;
             ViewBag.Users = _context.UserInfos.Count();
             ViewBag.Quizs = _context.TblQuizzes.Count();
             return View();

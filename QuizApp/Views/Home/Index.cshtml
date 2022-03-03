@@ -11,6 +11,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/validation.css" rel="stylesheet" />
 </head>
 <body class="bg-primary">
     <header>
@@ -43,70 +44,75 @@
                 </div>
             </div>
         </div>
-
-    </div>
-
-    <div class="modal fade" id="UserPostModal" tabindex="-1" role="dialog" aria-labelledby="ModalLable" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <form asp-area="" asp-controller="Home" asp-action="PostUsers">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="modal-title mx-auto" id="ModalLable">
-                            <p class="text-center font-weight-light">Cập nhập thông tin cá nhân</p>
-                            <p class="text-center font-weight-light">Hãy điền đầy đủ thông tin cá nhân. Các trường có dấu * là bắt buộc. Ban tổ chức sẽ không công nhận kết quả đối với trường hợp cung cấp không đầy đủ và chính xác thông tin cá nhân.</p>
+        <div class="modal fade" id="UserPostModal" tabindex="-1" role="dialog" aria-labelledby="ModalLable" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form id="postUsers" asp-area="" asp-controller="Home" asp-action="PostUsers">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title mx-auto" id="ModalLable">
+                                <p class="text-center font-weight-light">Cập nhập thông tin cá nhân</p>
+                                <p class="text-center font-weight-light">Hãy điền đầy đủ thông tin cá nhân. Các trường có dấu * là bắt buộc. Ban tổ chức sẽ không công nhận kết quả đối với trường hợp cung cấp không đầy đủ và chính xác thông tin cá nhân.</p>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div asp-validation-summary="ModelOnly"></div>
+                            <div class="form-group">
+                                <label asp-for="FullName" class="control-label">Họ và tên *</label>
+                                <input asp-for="FullName" class="form-control" />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label">Giới tính *</label>
+                                <select asp-for="Gender" asp-items="@ViewBag.Gender" class="form-control">
+                                    <option selected disabled>Chọn giới tính</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Birthday" class="control-label">Ngày sinh *</label>
+                                <input asp-for="Birthday" type="date" class="form-control" />
+                                <span asp-validation-for="Birthday" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="IdNum" class="control-label">CMND/CCCD *</label>
+                                <input asp-for="IdNum" class="form-control" />
+                                <span asp-validation-for="IdNum" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address" class="control-label">Địa chỉ *</label>
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PhoneNum" class="control-label">Số điện thoại *</label>
+                                <input asp-for="PhoneNum" class="form-control" />
+                                <span asp-validation-for="PhoneNum" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label">Email</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Hủy</button>
+                            <button type="submit" id="submit" class="btn btn-primary">Vào thi</button>
                         </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label asp-for="FullName" class="control-label">Họ và tên *</label>
-                            <input asp-for="FullName" class="form-control" />
-                            <span asp-validation-for="FullName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Gender" class="control-label">Giới tính *</label>
-                            <select asp-for="Gender" asp-items="@ViewBag.Gender" class="form-control">
-                                <option selected disabled>Chọn giới tính</option>
-                            </select>
-                            <span asp-validation-for="Gender" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Birthday" class="control-label">Ngày sinh *</label>
-                            <input asp-for="Birthday" type="date" class="form-control" />
-                            <span asp-validation-for="Birthday" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="IdNum" class="control-label">CMND/CCCD *</label>
-                            <input asp-for="IdNum" class="form-control" />
-                            <span asp-validation-for="IdNum" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Address" class="control-label">Địa chỉ *</label>
-                            <input asp-for="Address" class="form-control" />
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PhoneNum" class="control-label">Số điện thoại *</label>
-                            <input asp-for="PhoneNum" class="form-control" />
-                            <span asp-validation-for="PhoneNum" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Email" class="control-label">Email</label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary">Vào thi</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await Component.InvokeAsync("Notyf")
+    <script>
+        @Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    </script>
+    <script src="~/js/validation.js"></script>
 </body>
 </html>
 

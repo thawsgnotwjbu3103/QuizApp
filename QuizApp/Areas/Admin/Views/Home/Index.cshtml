@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "Dashboard";
 }
 <div class="row">
@@ -38,3 +38,41 @@
         </div>
     </div>
 </div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách dự thi</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="userTests">
+                <thead>
+                    <tr>
+                        <th>Tên bài thi</th>
+                        <th>Người dự thi</th>
+                        <th class="w-25">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in (IEnumerable<UserTests>)ViewBag.UserTests)
+                    {
+                        <tr>
+                            <td>@item.QuizName</td>
+                            <td>@item.FullName</td>
+                            <td>
+                                <a href="#" class="btn btn-primary">Xem điểm</a>
+                                <a href="#" class="btn btn-primary">Thông tin thí sinh</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#userTests').DataTable();
+        });
+    </script>
+}

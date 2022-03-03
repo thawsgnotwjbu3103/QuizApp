@@ -53,6 +53,7 @@ namespace QuizApp.Controllers
                 {
                     _notifyService.Error("Thông tin đã được sử dụng");
                 }
+
                 ViewBag.Gender = Utilities.GenderList();
                 user.DateCreated = DateTime.Now.ToString("dd-MM-yyyy");
                 _context.Add(user);
