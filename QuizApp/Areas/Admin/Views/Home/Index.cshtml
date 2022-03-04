@@ -47,9 +47,9 @@
             <table class="table table-bordered" id="userTests">
                 <thead>
                     <tr>
-                        <th>Tên bài thi</th>
-                        <th>Người dự thi</th>
-                        <th class="w-25">#</th>
+                        <th class="w-50">Tên bài thi</th>
+                        <th class="w-25">Người dự thi</th>
+                        <th>#</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,8 +59,10 @@
                             <td>@item.QuizName</td>
                             <td>@item.FullName</td>
                             <td>
-                                <a href="#" class="btn btn-primary">Xem điểm</a>
-                                <a href="#" class="btn btn-primary">Thông tin thí sinh</a>
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="Home" asp-action="Details" 
+                                   asp-route-uid="@item.UserId" asp-route-qid="@item.QuizId" target="_blank">
+                                    Xem chi tiết
+                                </a>
                             </td>
                         </tr>
                     }

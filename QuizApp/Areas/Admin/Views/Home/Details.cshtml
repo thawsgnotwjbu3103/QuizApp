@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Thông tin chi tiết";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <dl class="row">
+                    @foreach (var item in (IEnumerable<UserInfo>)ViewBag.User)
+                    {
+                        <dt class="col-sm-3">Họ và tên : </dt>
+                        <dd class="col-sm-9">@item.FullName</dd>
+                        <dt class="col-sm-3">Giới tính : </dt>
+                        <dd class="col-sm-9">@item.Gender</dd>
+                        <dt class="col-sm-3">Ngày sinh : </dt>
+                        <dd class="col-sm-9">@item.Birthday</dd>
+                        <dt class="col-sm-3">CMND/CCCD : </dt>
+                        <dd class="col-sm-9">@item.IdNum</dd>
+                        <dt class="col-sm-3">Số điện thoại :  </dt>
+                        <dd class="col-sm-9">@item.PhoneNum</dd>
+                        <dt class="col-sm-3">Địa chỉ : </dt>
+                        <dd class="col-sm-9">@item.Address</dd>
+                        <dt class="col-sm-3">Email : </dt>
+                        <dd class="col-sm-9">@item.Email</dd>
+                    }
+                </dl>
+            </div>
+            <div class="col-6">
+                <dl class="row">
+                    @foreach (var item in (IEnumerable<TblQuiz>)ViewBag.Quiz)
+                    {
+                        <dt class="col-sm-3">Bài thi : </dt>
+                        <dd class="col-sm-9">@item.QuizName</dd>
+                        <dt class="col-sm-3">Thời gian : </dt>
+                        <dd class="col-sm-9">@item.Time</dd>
+                    }
+                    <dt class="col-sm-3">Tổng điểm : </dt>
+                    <dd class="col-sm-9">@ViewBag.Point điểm</dd>
+                    <dt class="col-sm-3">Trả lời tự luận : </dt>
+                    <dd class="col-sm-9">
+                        <textarea class="form-control" readonly rows="3">@ViewBag.Text</textarea>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+    </div>
+</div>
