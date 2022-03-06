@@ -40,10 +40,17 @@
                     }
                     <dt class="col-sm-3">Tổng điểm : </dt>
                     <dd class="col-sm-9">@ViewBag.Point điểm</dd>
-                    <dt class="col-sm-3">Trả lời tự luận : </dt>
-                    <dd class="col-sm-9">
-                        <textarea class="form-control" readonly rows="3">@ViewBag.Text</textarea>
-                    </dd>
+                    @foreach (var item in (IEnumerable<UserAnswerText>)ViewBag.Text)
+                    {
+                        <dt class="col-sm-3">Câu hỏi tự luận : </dt>
+                        <dd class="col-sm-9">
+                            @item.QuestionText.QuestionTextTitle
+                        </dd>
+                        <dt class="col-sm-3">Trả lời tự luận : </dt>
+                        <dd class="col-sm-9">
+                            <textarea class="form-control" readonly rows="3">@item.QuestionTextTitle</textarea>
+                        </dd>
+                    }
                 </dl>
             </div>
         </div>

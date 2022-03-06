@@ -8,8 +8,22 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
-        <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Create" class="btn btn-primary float-right">Tạo bài thi</a>
+        <div class="mt-2">
+            <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Create" class="btn btn-primary float-right">Tạo bài thi</a>
+            <button type="button" class="btn btn-success float-left" data-toggle="modal" data-target="#importExcel">
+                Import bài thi
+            </button>
+            <button type="button" class="btn btn-success float-left mx-2" data-toggle="modal" data-target="#importQuestions">
+                Import câu hỏi
+            </button>
+            <button type="button" class="btn btn-success float-left" data-toggle="modal" data-target="#importChoices">
+                Import câu trả lời
+            </button>
+        </div>
     </div>
+    @await Html.PartialAsync("_QuizModal.cshtml")
+    @await Html.PartialAsync("_QuestionModal.cshtml")
+    @await Html.PartialAsync("_ChoiceModal.cshtml")
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -34,27 +48,35 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>@item.QuizName</td>
-                        <td>@item.Time</td>
-                        <td>@item.DateCreated</td>
-                        @if (item.IsActive)
-                        {
-                            <td>Hiện</td>
-                        }
-                        else
-                        {
-                            <td>Ẩn</td>
-                        }
-                    <td>
-                        <a asp-area="Admin" asp-controller="Questions" asp-action="Index" asp-route-id="@item.QuizId" class="btn btn-info">Xem câu hỏi trắc nghiệm</a>
-                        <a asp-area="Admin" asp-controller="QuestionTexts" asp-action="Index" asp-route-id="@item.QuizId" class="btn btn-info mx-lg-2 my-md-2 my-sm-2">Xem câu hỏi tự luận</a>
-                        <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Edit" asp-route-id="@item.QuizId" class="btn btn-warning">Chỉnh sửa</a>
-                    </td>
-                    </tr>
+                        <tr>
+                            <td>@item.QuizName</td>
+                            <td>@item.Time</td>
+                            <td>@item.DateCreated</td>
+                            @if (item.IsActive)
+                            {
+                                <td>Hiện</td>
+                            }
+                            else
+                            {
+                                <td>Ẩn</td>
+                            }
+                            <td>
+                                <a asp-area="Admin" asp-controller="Questions" asp-action="Index" asp-route-id="@item.QuizId" class="btn btn-info">Xem câu hỏi trắc nghiệm</a>
+                                <a asp-area="Admin" asp-controller="QuestionTexts" asp-action="Index" asp-route-id="@item.QuizId" class="btn btn-info mx-lg-2 my-md-2 my-sm-2">Xem câu hỏi tự luận</a>
+                                <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Edit" asp-route-id="@item.QuizId" class="btn btn-warning">Chỉnh sửa</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#quizId').select2();
+            $('#quizId2').select2();
+        });
+    </script>
+}
