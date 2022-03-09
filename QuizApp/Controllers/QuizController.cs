@@ -52,9 +52,9 @@ namespace QuizApp.Controllers
                                        ChoiceId = qc.ChoiceId,
                                        Choice = qc.Choice
                                    }).Where(x=>x.QuizId == id).ToList();
-
-            ViewBag.QuestionChoices = questionChoices;
-            ViewBag.Questions = question;
+            var rnd = new Random();
+            ViewBag.QuestionChoices = questionChoices.OrderBy(x=>rnd.Next());
+            ViewBag.Questions = question.OrderBy(x=>rnd.Next());
             ViewBag.Count = question.Count();
             ViewBag.QuestionText = questionText;
             ViewBag.TextCount = questionText.Count();
