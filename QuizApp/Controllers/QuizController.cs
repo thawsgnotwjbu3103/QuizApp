@@ -37,6 +37,7 @@ namespace QuizApp.Controllers
             CookieOptions options = new CookieOptions();
             options.Expires = new DateTimeOffset(2038, 1, 1, 0, 0, 0, TimeSpan.FromHours(0));
             Response.Cookies.Append("_quizId", id.ToString(), options);
+
             string time = _context.TblQuizzes.Where(x => x.QuizId == id).Select(q => q.Time).FirstOrDefault();
             int intTime = Int32.Parse(string.Join(string.Empty, Regex.Matches(time, @"\d+").OfType<Match>().Select(m => m.Value)));
             ViewBag.Time = intTime;
@@ -56,6 +57,7 @@ namespace QuizApp.Controllers
             ViewBag.Questions = question;
             ViewBag.Count = question.Count();
             ViewBag.QuestionText = questionText;
+            ViewBag.TextCount = questionText.Count();
             return View();
         }
 
@@ -100,7 +102,8 @@ namespace QuizApp.Controllers
 
 
             var userAnswerTotal = _context.UserAnswers
-                .Where(x => x.UserId == userId && x.QuizId == quizId && x.ChoiceId != null && x.IsRight == true).Count();
+                .Where(x => x.UserId == userId && x.QuizId == quizId && x.ChoiceId != null && x.IsRight == true)
+                .Count();
             var title = _context.TblQuizzes.Where(x => x.QuizId == quizId).Select(q => q.QuizName).FirstOrDefault();
             var totalQuestions = _context.QuestionChoices.Where(x => x.IsRight == true && x.QuizId == quizId).Count();
             double totalpoint = ((double)userAnswerTotal / (double)totalQuestions) * 100; 

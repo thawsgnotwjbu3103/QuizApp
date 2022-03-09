@@ -54,10 +54,13 @@
                         <textarea style="resize: none;" class="form-control" name="textanswerList" rows="6"></textarea>
                     </div>
                 }
-                <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
-                    <p>Dự đoán số người trả lời đúng</p>
-                    <input type="number" name="matches"/>
-                </div>
+                @if (ViewBag.TextCount > 0)
+                {
+                    <div class="my-5 card py-3 px-5" style="background-color: #f0f5f5;">
+                        <p>Dự đoán số người trả lời đúng</p>
+                        <input type="number" name="matches" />
+                    </div>
+                }
                 <input type="submit" onclick="return confirm('Bạn có muốn nộp bài ?')" class="btn btn-primary w-100" value="Nộp bài" />
             </form>
         </div>
@@ -68,17 +71,17 @@
     @foreach (var item in (IEnumerable<Question>)ViewBag.Questions)
     {
         <script>
-           $(".chb_@item.QuestionId").change(function () {
+            $(".chb_@item.QuestionId").change(function () {
                 $(".chb_@item.QuestionId").prop('checked', false);
-                    $(this).prop('checked', true);
-                });
+                $(this).prop('checked', true);
+            });
         </script>
     }
 
     <script>
-            function startTimer(duration, display) {
-                var timer = duration, minutes, seconds;
-                setInterval(function () {
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
                     minutes = parseInt(timer / 60, 10)
                     seconds = parseInt(timer % 60, 10);
 
@@ -92,22 +95,22 @@
                             $('form#startForm').submit();
                         });
                     }
-                }, 1000);
-            }
+            }, 1000);
+        }
 
-        jQuery(function ($) {
-            var int = @ViewBag.Time;
-                var Minutes = int * 60,
-                    display = $('#timerLarge');
-                startTimer(Minutes, display);
-        });
+    jQuery(function ($) {
+        var int = @ViewBag.Time;
+        var Minutes = int * 60,
+            display = $('#timerLarge');
+        startTimer(Minutes, display);
+    });
 
-        jQuery(function ($) {
-            var int = @ViewBag.Time;
-                var Minutes = int * 60,
-                    display = $('#timerSmall');
-                startTimer(Minutes, display);
-        });
+    jQuery(function ($) {
+        var int = @ViewBag.Time;
+        var Minutes = int * 60,
+            display = $('#timerSmall');
+        startTimer(Minutes, display);
+    });
     </script>
 }
 

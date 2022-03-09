@@ -17,7 +17,6 @@ namespace QuizApp.Models
         [Required]
         public string QuestionTextTitle { get; set; }
         public int? QuizId { get; set; }
-
         public virtual TblQuiz Quiz { get; set; }
         public virtual ICollection<UserAnswerText> UserAnswerTexts { get; set; }
     }
