@@ -92,7 +92,7 @@ namespace QuizApp.Models
             modelBuilder.Entity<QuestionText>(entity =>
             {
                 entity.Property(e => e.QuestionTextTitle)
-                    .HasMaxLength(10)
+                    .HasMaxLength(50)
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.Quiz)
