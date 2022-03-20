@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuizApp.Areas.Admin.Controllers
 {
@@ -26,7 +24,7 @@ namespace QuizApp.Areas.Admin.Controllers
         // GET: Admin/Questions
         public async Task<IActionResult> Index(int id)
         {
-            var testContext = _context.Questions.Include(q => q.Quiz).Where(x=>x.QuizId == id);
+            var testContext = _context.Questions.Include(q => q.Quiz).Where(x => x.QuizId == id);
             ViewBag.Id = id;
             return View(await testContext.ToListAsync());
         }
@@ -51,7 +49,7 @@ namespace QuizApp.Areas.Admin.Controllers
                 _context.Add(question);
                 await _context.SaveChangesAsync();
                 _notifyService.Success("Tạo thành công");
-                return RedirectToAction(nameof(Index), new { id = id});
+                return RedirectToAction(nameof(Index), new { id = id });
             }
             ViewData["QuizId"] = new SelectList(_context.TblQuizzes, "QuizId", "QuizName", question.QuizId);
             return View(question);
@@ -108,7 +106,7 @@ namespace QuizApp.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = oldId});
+                return RedirectToAction(nameof(Index), new { id = oldId });
             }
             ViewData["QuizId"] = new SelectList(_context.TblQuizzes, "QuizId", "QuizName", question.QuizId);
             return View(question);

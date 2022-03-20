@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuizApp.Areas.Admin.Controllers
 {
@@ -24,7 +21,7 @@ namespace QuizApp.Areas.Admin.Controllers
         // GET: Admin/UserAnswerTexts1
         public async Task<IActionResult> Index(int id)
         {
-            var testContext = _context.UserAnswerTexts.Include(u => u.QuestionText).Include(u => u.User).Where(x=>x.UserId == id);
+            var testContext = _context.UserAnswerTexts.Include(u => u.QuestionText).Include(u => u.User).Where(x => x.UserId == id);
             return View(await testContext.ToListAsync());
         }
 

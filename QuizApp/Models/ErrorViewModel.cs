@@ -1,5 +1,3 @@
-using System;
-
 namespace QuizApp.Models
 {
     public class ErrorViewModel

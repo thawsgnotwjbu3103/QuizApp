@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using QuizApp.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using QuizApp.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using QuizApp.Helpers;
-using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace QuizApp.Controllers
 {
@@ -31,7 +26,7 @@ namespace QuizApp.Controllers
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });
 
 
-            ViewBag.Check = _context.DisableLists.Where(x=>x.UserId == id).ToList();
+            ViewBag.Check = _context.DisableLists.Where(x => x.UserId == id).ToList();
             ViewBag.Gender = check.Gender;
             ViewBag.PhoneNum = check.PhoneNum;
             ViewBag.IdNum = check.IdNum;
@@ -40,7 +35,8 @@ namespace QuizApp.Controllers
             return View();
         }
 
-        public IActionResult NotifyDetails(int id) {
+        public IActionResult NotifyDetails(int id)
+        {
             if (Request.Cookies["_id"] == null)
             {
                 return RedirectToAction("Index", "Home", new { area = "" });
@@ -52,7 +48,7 @@ namespace QuizApp.Controllers
 
             var content = _context.Notifications.Where(x => x.NotifyId == id).FirstOrDefault();
             return View(content);
-        } 
+        }
 
 
         [HttpPost]

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +6,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using QuizApp.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuizApp.Areas.Admin.Controllers
 {
@@ -226,8 +226,8 @@ namespace QuizApp.Areas.Admin.Controllers
                         {
                             QuizId = quizId,
                             QuestionId = _context.Questions
-                            .Where(x=>x.QuestionTitle == worksheet.Cells[row, 1].Value.ToString())
-                            .Select(x=>x.QuestionId).First(),
+                            .Where(x => x.QuestionTitle == worksheet.Cells[row, 1].Value.ToString())
+                            .Select(x => x.QuestionId).First(),
                             Choice = worksheet.Cells[row, 2].Value.ToString(),
                             IsRight = Convert.ToBoolean(worksheet.Cells[row, 3].Value)
                         });

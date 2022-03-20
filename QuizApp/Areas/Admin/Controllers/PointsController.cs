@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuizApp.Areas.Admin.Controllers
 {
@@ -24,7 +21,7 @@ namespace QuizApp.Areas.Admin.Controllers
         // GET: Admin/Points
         public async Task<IActionResult> Index(int id)
         {
-            var testContext = _context.Points.Where(x=>x.UserId == id);
+            var testContext = _context.Points.Where(x => x.UserId == id);
             var temp = testContext.Select(x => x.QuizId).FirstOrDefault();
             ViewBag.Name = _context.TblQuizzes.Where(x => x.QuizId == temp).Select(x => x.QuizName).FirstOrDefault();
             return View(await testContext.ToListAsync());

@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuizApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace QuizApp.Controllers
 {
@@ -17,7 +14,7 @@ namespace QuizApp.Controllers
         public IActionResult Index(int id, int quizId)
         {
             var userAnswerTotal = _context.UserAnswers
-                .Where(x=>x.UserId == id  && x.QuizId == quizId && x.ChoiceId != null && x.IsRight == true).Count();
+                .Where(x => x.UserId == id && x.QuizId == quizId && x.ChoiceId != null && x.IsRight == true).Count();
             var title = _context.TblQuizzes.Where(x => x.QuizId == quizId).Select(q => q.QuizName).FirstOrDefault();
 
             var totalQuestions = _context.QuestionChoices.Where(x => x.IsRight == true && x.QuizId == quizId).Count();

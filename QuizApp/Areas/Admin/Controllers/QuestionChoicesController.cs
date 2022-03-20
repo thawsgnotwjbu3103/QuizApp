@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuizApp.Areas.Admin.Controllers
 {
@@ -28,7 +27,7 @@ namespace QuizApp.Areas.Admin.Controllers
         {
             var testContext = _context.QuestionChoices
                 .Include(q => q.Question)
-                .Where(x=>x.QuestionId == id);
+                .Where(x => x.QuestionId == id);
 
 
             ViewBag.qId = _context.QuestionChoices
@@ -40,8 +39,8 @@ namespace QuizApp.Areas.Admin.Controllers
                           q.QuizId,
                           q.QuestionId
                       })
-                .Where(x=>x.QuestionId == id)
-                .Select(x=>x.QuizId).FirstOrDefault();
+                .Where(x => x.QuestionId == id)
+                .Select(x => x.QuizId).FirstOrDefault();
 
             ViewBag.Id = id;
             return View(await testContext.ToListAsync());
@@ -62,8 +61,8 @@ namespace QuizApp.Areas.Admin.Controllers
         {
             var check = (from qc in _context.QuestionChoices
                          join q in _context.Questions on qc.QuestionId equals q.QuestionId
-                         where q.QuestionId == id && 
-                         q.IsMultipleChoices == false && 
+                         where q.QuestionId == id &&
+                         q.IsMultipleChoices == false &&
                          qc.IsRight == true
                          select new
                          {
@@ -72,7 +71,7 @@ namespace QuizApp.Areas.Admin.Controllers
             var quizId = _context.Questions.Where(x => x.QuestionId == id).Select(q => q.QuizId).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                if(questionChoice.IsRight == true && check == 1)
+                if (questionChoice.IsRight == true && check == 1)
                 {
                     _notifyService.Warning("Không thể có hai câu trả lời đúng trong câu hỏi có dạng duy nhất");
                     return View(questionChoice);
@@ -81,7 +80,7 @@ namespace QuizApp.Areas.Admin.Controllers
                 questionChoice.QuizId = quizId;
                 _context.Add(questionChoice);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { id = id});
+                return RedirectToAction(nameof(Index), new { id = id });
             }
             ViewData["QuestionId"] = new SelectList(_context.Questions, "QuestionId", "QuestionTitle", questionChoice.QuestionId);
             return View(questionChoice);

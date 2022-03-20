@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizApp.Controllers
@@ -16,7 +13,7 @@ namespace QuizApp.Controllers
         public INotyfService _notifyService { get; }
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        public AccountController(INotyfService notifyService, 
+        public AccountController(INotyfService notifyService,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager)
         {
@@ -72,7 +69,7 @@ namespace QuizApp.Controllers
             if (ModelState.IsValid)
             {
                 IdentityUser user = await _userManager.FindByNameAsync(login.Username);
-                if(user != null)
+                if (user != null)
                 {
                     Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
                     if (result.Succeeded)

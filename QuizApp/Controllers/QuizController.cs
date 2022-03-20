@@ -28,14 +28,9 @@ namespace QuizApp.Controllers
                 .FirstOrDefault();
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });
 
-            var disable = _context.DisableLists.Where(x => x.DisableId == int.Parse(Request.Cookies["_id"])).FirstOrDefault();
-            if(disable != null) return RedirectToAction("Index", "Dashboard", new { area = "" });
+            var disable = _context.DisableLists.Where(x => x.DisableId == id).FirstOrDefault();
+            if (disable != null) return RedirectToAction("Index", "Dashboard", new { area = "" });
 
-            var checkDisable = _context.DisableLists.Where(x => x.DisableId == id && x.UserId == int.Parse(Request.Cookies["_id"])).AsNoTracking().FirstOrDefault();
-            if(checkDisable != null)
-            {
-                return NotFound();
-            };
             var question = _context.Questions.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
             var questionText = _context.QuestionTexts.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
 
@@ -56,10 +51,10 @@ namespace QuizApp.Controllers
                                        QuestionId = qc.QuestionId,
                                        ChoiceId = qc.ChoiceId,
                                        Choice = qc.Choice
-                                   }).Where(x=>x.QuizId == id).ToList();
+                                   }).Where(x => x.QuizId == id).ToList();
             var rnd = new Random();
-            ViewBag.QuestionChoices = questionChoices.OrderBy(x=>rnd.Next());
-            ViewBag.Questions = question.OrderBy(x=>rnd.Next());
+            ViewBag.QuestionChoices = questionChoices.OrderBy(x => rnd.Next());
+            ViewBag.Questions = question.OrderBy(x => rnd.Next());
             ViewBag.Count = question.Count();
             ViewBag.QuestionText = questionText;
             ViewBag.TextCount = questionText.Count();
@@ -111,7 +106,7 @@ namespace QuizApp.Controllers
                 .Count();
             var title = _context.TblQuizzes.Where(x => x.QuizId == quizId).Select(q => q.QuizName).FirstOrDefault();
             var totalQuestions = _context.QuestionChoices.Where(x => x.IsRight == true && x.QuizId == quizId).Count();
-            double totalpoint = ((double)userAnswerTotal / (double)totalQuestions) * 100; 
+            double totalpoint = ((double)userAnswerTotal / (double)totalQuestions) * 100;
 
             Point point = new Point
             {
