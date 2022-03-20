@@ -10,13 +10,14 @@
         <h6 class="m-0 font-weight-bold text-primary">@ViewBag.Title</h6>
         <div class="mt-2">
             <a asp-area="Admin" asp-controller="TblQuizs" asp-action="Create" class="btn btn-primary float-right">Tạo bài thi</a>
-            <button type="button" class="btn btn-success float-left" data-toggle="modal" data-target="#importExcel">
+            <div class="clearfix"></div>
+            <button type="button" class="btn btn-success float-left mx-2" data-toggle="modal" data-target="#importExcel">
                 Import bài thi
             </button>
             <button type="button" class="btn btn-success float-left mx-2" data-toggle="modal" data-target="#importQuestions">
                 Import câu hỏi
             </button>
-            <button type="button" class="btn btn-success float-left" data-toggle="modal" data-target="#importChoices">
+            <button type="button" class="btn btn-success float-left mx-2" data-toggle="modal" data-target="#importChoices">
                 Import câu trả lời
             </button>
         </div>
