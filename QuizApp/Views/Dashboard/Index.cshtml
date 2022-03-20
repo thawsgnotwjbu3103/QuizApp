@@ -94,46 +94,20 @@
                             <tbody>
                                 @foreach (var item in (IEnumerable<TblQuiz>)ViewBag.Quizs)
                                 {
-                                    if (((IEnumerable<DisableList>)ViewBag.Check).Count() == 0)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @item.QuizName <br />
-                                                <small style="font-size: 13px;">
-                                                    <em>
-                                                        Cập nhập ngày : @item.DateCreated
-                                                    </em>
-                                                </small>
-                                            </td>
-                                            <td class="text-left">@item.Time</td>
-                                            <td>
-                                                <a class="btn btn-outline-primary w-100" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                    else
-                                    {
-                                        foreach (var disable in (IEnumerable<DisableList>)ViewBag.Check)
-                                        {
-                                            if (item.QuizId != disable.DisableId)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @item.QuizName <br />
-                                                        <small style="font-size: 13px;">
-                                                            <em>
-                                                                Cập nhập ngày : @item.DateCreated
-                                                            </em>
-                                                        </small>
-                                                    </td>
-                                                    <td class="text-left">@item.Time</td>
-                                                    <td>
-                                                        <a class="btn btn-outline-primary w-100" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
-                                    }
+                                    <tr>
+                                        <td>
+                                            @item.QuizName <br />
+                                            <small style="font-size: 13px;">
+                                                <em>
+                                                    Cập nhập ngày : @item.DateCreated
+                                                </em>
+                                            </small>
+                                        </td>
+                                        <td class="text-left">@item.Time</td>
+                                        <td>
+                                            <a class="btn btn-outline-primary w-100" asp-area="" asp-controller="Quiz" asp-action="Start" asp-route-id="@item.QuizId">Bắt đầu làm bài</a>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>

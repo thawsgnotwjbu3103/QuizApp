@@ -24,14 +24,13 @@ namespace QuizApp.Controllers
                 .Where(x => x.UserId == id)
                 .FirstOrDefault();
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });
-
-
-            ViewBag.Check = _context.DisableLists.Where(x => x.UserId == id).ToList();
             ViewBag.Gender = check.Gender;
             ViewBag.PhoneNum = check.PhoneNum;
             ViewBag.IdNum = check.IdNum;
             ViewBag.Notifications = await _context.Notifications.Where(x => x.IsActive).ToListAsync();
-            ViewBag.Quizs = await _context.TblQuizzes.Where(x => x.IsActive).ToListAsync();
+            ViewBag.Quizs = from tq in _context.TblQuizzes
+                            where !_context.DisableLists.Any(x => x.DisableId == tq.QuizId && x.UserId == id)
+                            select tq;
             return View();
         }
 
