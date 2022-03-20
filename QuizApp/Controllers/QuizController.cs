@@ -28,7 +28,7 @@ namespace QuizApp.Controllers
                 .FirstOrDefault();
             if (check == null) return RedirectToAction("Index", "Home", new { area = "" });
 
-            var disable = _context.DisableLists.Where(x => x.DisableId == id).FirstOrDefault();
+            var disable = _context.DisableLists.Where(x => x.DisableId == id && x.UserId == int.Parse(Request.Cookies["_id"])).FirstOrDefault();
             if (disable != null) return RedirectToAction("Index", "Dashboard", new { area = "" });
 
             var question = _context.Questions.Include(q => q.Quiz).Where(x => x.QuizId == id).ToList();
