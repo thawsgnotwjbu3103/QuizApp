@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -65,19 +66,19 @@ namespace QuizApp.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //string content = "";
-                //if (notification.Content != null)
-                //{
-                //    string uploadDirs = Path.Combine(_webHostEnvironment.WebRootPath, "contentfiles");
-                //    content = Guid.NewGuid().ToString() + "_" + notification.Content.FileName;
-                //    string filePath = Path.Combine(uploadDirs, content);
-                //    FileStream fs = new FileStream(filePath, FileMode.Create);
-                //    await notification.Content.CopyToAsync(fs);
-                //    fs.Close();
-                //}
-                //notification.NotifyContent = content;
-                //notification.DateCreated = DateTime.Now.ToString("dd-MM-yyyy");
-                //notification.DateUpdated = DateTime.Now.ToString("dd-MM-yyyy");
+                string content = "";
+                if (notification.Content != null)
+                {
+                    string uploadDirs = Path.Combine(_webHostEnvironment.WebRootPath, "contentfiles");
+                    content = Guid.NewGuid().ToString() + "_" + notification.Content.FileName;
+                    string filePath = Path.Combine(uploadDirs, content);
+                    FileStream fs = new FileStream(filePath, FileMode.Create);
+                    await notification.Content.CopyToAsync(fs);
+                    fs.Close();
+                }
+                notification.NotifyContent = content;
+                notification.DateCreated = DateTime.Now.ToString("dd-MM-yyyy");
+                notification.DateUpdated = DateTime.Now.ToString("dd-MM-yyyy");
 
 
                 _context.Add(notification);
